@@ -1,0 +1,1 @@
+<?phpdefined('WM_ROOTPATH') || define('WM_ROOTPATH', (dirname(__FILE__).'/'));require_once WM_ROOTPATH.'libraries/afterlogic/DAV/autoload.php';$baseUri = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'/'.basename(__FILE__))).'/'.basename(__FILE__).'/';$server = new afterlogic_DAV_Server($baseUri);$server->exec();

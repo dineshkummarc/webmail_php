@@ -1,0 +1,51 @@
+<input type="submit" name="next_btn" style="position: absolute; visibility: hidden;" value="Next" />
+
+<h1>
+	Calendar settings
+</h1>
+
+<div class="field_list">
+	
+	<div class="row">
+		<input name="chEnableMobileSync" id="chEnableMobileSync" type="checkbox" value="1" {{MobyleSyncChecked}} />
+		<label id="chEnableMobileSync_label" for="chEnableMobileSync">Enable mobile sync</label>
+	</div>
+
+	<div class="row">
+		<label class="field_label_tiny" id="txtCalDAVUrl_label">DAV server URL:</label>
+		<span class="field_value_limit">
+			<input name="txtCalDAVUrl" id="txtCalDAVUrl" class="wm_input" type="text" style="width: 398px;" value="{{CalDAVUrl}}" />
+		</span>
+	</div>
+	
+	<div class="field_description">
+		<span class="error">
+			{{DavError}}
+		</span>
+	</div>
+	
+</div>
+<br />
+
+<div class="{{AutoClass}} note">
+	This value was autodetected, you can change it if required.
+</div>
+<br />
+<div class="note">
+	Specifies the external URL to the built-in DAV server. 
+	The webmail itself and other CalDAV clients such as iPhone will access
+	users' calendars via this URL. When "Enable mobile sync" is checked, 
+	the webmail also displays this URL to users in Settings/Mobile Sync area of their accounts.
+	<br />
+	<br />
+	The webmail does its best to autodetect this URL during the installation 
+	but you may wish to change it to somewhat as simple as some.host.com with URL
+	rewriting (e.g. mod_rewrite). This makes it easier to configure iOS devices like iPhone 
+	as they don't like some.host.com/some/stuff/after/hostname as DAV server URLs.
+</div>
+
+<div class="buttons">
+	<hr />
+	<input class="wm_button" type="submit" name="back_btn" value="Back" />
+	<input class="wm_button right" type="submit" name="next_btn" value="Next" />
+</div>
