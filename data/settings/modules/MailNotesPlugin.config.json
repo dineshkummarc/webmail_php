@@ -1,0 +1,14 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "DisplayNotesButton": [
+        false,
+        "bool",
+        null,
+        "Setting to true displays the notes button in tabs bar"
+    ]
+}

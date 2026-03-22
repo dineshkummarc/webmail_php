@@ -1,0 +1,183 @@
+@use "sass:color";
+
+a {
+  text-decoration: none;
+  color: color.adjust($primary, $lightness: -20%);
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.q-header .q-tab__content {
+  min-width: auto;
+}
+
+.q-tab--active .tab-label {
+  font-weight: bold;
+}
+
+.q-tab--active.q-tab--logout .tab-label {
+  font-weight: normal;
+}
+
+// removes hover effect from tabs
+.q-tab .q-focus-helper {
+  display: none;
+}
+
+.domains-select {
+  width: 180px;
+}
+
+.q-splitter__before, .q-splitter__right-panel {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: -1px 0 2px rgb(0 0 0 / 11%);
+}
+
+.q-splitter__separator {
+  width: 0px !important;
+}
+
+.q-checkbox__inner--falsy .q-checkbox__bg {
+  background-color: #fff;
+}
+
+.q-radio__inner {
+  background-color: #fff;
+}
+
+.q-scrollarea__thumb {
+  right: 4px;
+  border-radius: 5px;
+  background-color: #bbb;
+  width: 5px;
+  opacity: 0.75;
+}
+
+.q-scrollarea__bar {
+  right: 2px;
+  border-radius: 9px;
+  background-color: #ddd;
+  width: 9px;
+  opacity: 0.2;
+}
+
+button {
+  background: #43d0bf;
+  border: 1px solid #2db3a3;
+}
+
+// reverts uppercase text for all buttons with dropdowns
+.q-btn-dropdown {
+  text-transform: initial;
+}
+
+// corrects background for btn-search
+.q-btn-search {
+  height: 38px;
+  border-radius: 0 28px 28px 0;
+}
+
+// adds border-right for StandartList component
+.list-border {
+  border-right: 1px solid rgb(0 0 0 / 11%);
+}
+
+.q-layout__section--marginal {
+  background-color: transparent;
+  color: #503d68;
+}
+
+// removes hover effect from buttons
+button.no-hover .q-focus-helper {
+  display: none;
+}
+
+// makes background white correctly for rounded inputs
+.q-input.q-field--rounded .q-field__control {
+  background: white;
+}
+
+// removes border-color for Login inputs
+.login_screen .q-field__control {
+  color: transparent;
+}
+
+.q-btn--outline .q-btn__wrapper:before {
+  border: 0;
+}
+
+// makes special border-radius fo Login inputs
+.login-password.q-field--outlined .q-field__control {
+   border-radius: 0 0 4px 4px;
+}
+
+// makes special border-radius fo Login inputs
+.login-name.q-field--outlined .q-field__control {
+  border-radius: 4px 4px 0 0;
+}
+
+// makes style for scroll in Licensing textarea
+.textarea .q-field--outlined .q-field__control {
+  padding-right: 2px;
+}
+
+$selected-item: #78b8f0;
+.bg-selected-item {
+  background-color: $selected-item;
+  color: white;
+}
+
+$checked-item: #ebf7cb;
+.bg-checked-item {
+  background-color: $checked-item;
+}
+
+.card-edit-settings {
+  background: #f1f1f1;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACtJREFUeNo0iIEJACAAwlT8/1GPMAsaKGNMYpskAOPRdq9tWbrifpaOAAMAMvEO3ANCJPYAAAAASUVORK5CYII=');
+}
+
+.required-field:before {
+  color: red;
+  content: "*";
+  display: inline-block;
+  margin-left: -0.6em;
+  width: 0.6em;
+}
+
+.label {
+  border-radius: 10px 10px 10px 10px;
+  color: #6d6d6d;
+  float: right;
+  padding: 2px 8px;
+  background: #f1f1f1;
+
+  &.me, &.admin {
+  }
+
+  &.disabled {
+    opacity: 1 !important;
+    height: 16px;
+    width: 16px;
+    overflow: hidden;
+    display: inline-block;
+    padding: 0;
+    border-radius: 50px;
+    border: 2px solid red;
+    background: transparent;
+    &::before {
+      display: inline-block;
+      content: "";
+      width: 1.5px;
+      height: 14.5px;
+      background: red;
+      transform: rotate(-45deg);
+      transform-origin: 0px 0px;
+    }
+    // q-icon material-icons
+  }
+}
+
+

@@ -1,0 +1,26 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "EnableModule": [
+        false,
+        "bool",
+        null,
+        "Setting to true allows for using and configuring the module"
+    ],
+    "Id": [
+        "",
+        "string",
+        null,
+        "App ID (App key) obtained from Dropbox app"
+    ],
+    "Secret": [
+        "",
+        "string",
+        null,
+        "App secret obtained from Dropbox app"
+    ]
+}

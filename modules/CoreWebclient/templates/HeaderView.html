@@ -1,0 +1,36 @@
+<!-- ko if: sTopIframeUrl !== '' && iTopIframeHeightPx > 0 -->
+<iframe data-bind="attr: {'src': sTopIframeUrl, 'height': iTopIframeHeightPx} " style="border: none;"></iframe>
+<!-- /ko -->
+<div class="tabsbar">
+	<div class="content">
+		<!-- ko if: sLogoUrl === '' -->
+			<a href="#" class="item logo"></a>
+		<!-- /ko -->
+		<!-- ko if: sLogoUrl !== '' -->
+			<a href="#" class="item specified-logo">
+				<img class="img_logo" data-bind="attr: {'src': sLogoUrl}"/>
+			</a>
+		<!-- /ko -->
+
+		<!-- ko foreach: tabs -->
+			<!-- ko template: {name: ViewTemplate, data: $data, if: $data.visible} --><!-- /ko -->
+		<!-- /ko -->
+
+		<div class="spacer"></div>
+
+		<span class="item mobile" data-bind="visible: bShowMobileSwitcher, click: switchToMobileVersion">
+			<span class="link" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SHOW_MOBILE_VERSION'}"></span>
+		</span>
+
+		<span class="item mobile" data-bind="visible: bDebugMode, click: debug">
+			<span class="link">Debug</span>
+		</span>
+
+		<span class="item logout" data-bind="visible: bShowLogout">
+			<span class="link" data-bind="click: logout">
+				<span class="icon"></span>
+				<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_LOGOUT'}"></span>
+			</span>
+		</span>
+	</div>
+</div>

@@ -1,0 +1,94 @@
+@import "./common/html-editor.less";
+@import "./desktop/folders.less";
+@import "./desktop/mail.less";
+@import "./desktop/compose.less";
+@import "./common/blockquote.less";
+@import "./desktop/settings.less";
+@import "./desktop/simple_list.less";
+@import "./desktop/buttons.less";
+@import "./desktop/table-compressor.less";
+@import "./desktop/layout-horiz-split.less";
+
+.settings .folders .controls .button {
+	&.template {
+		&:before {
+			content: "\e90f";
+		}
+
+		&.turned-on {
+			&:before {
+				content: "\e90e";
+			}
+		}
+	}
+	&.always-refresh {
+		&:before {
+			content: "\e911";
+		}
+
+		&.turned-on {
+			&:before {
+				content: "\e910";
+			}
+		}
+	}
+}
+
+.folders .item .icon.type8:before {
+	content: "\e90e";
+}
+
+.mail-servers-pagination {
+	margin: -20px 25px 90px;
+	
+	.pagination {
+		float: left;
+		margin-top: 5px;
+	}
+	
+	.search_block {
+		float: left;
+		width: 300px;
+	}
+}
+
+.search_block {
+	.folders_search {
+		color: #bbbbbb;
+		font-size: 12pt;
+		// float: left;
+		// margin-left: 32px;
+		// margin-top: -34px;
+		margin-bottom: 10px;
+		// opacity: 0;
+		// visibility: hidden;
+		text-align: left;
+		// .transition(~"max-height 0.2s ease 0s, opacity 0.2s ease 0s, visibility 0.1s");
+		// .transition(~"opacity 0.2s ease 0s, visibility 0.1s");
+
+		// &.folders_search_expand {
+		// 	opacity: 1;
+		// 	visibility: visible;
+
+			// .transition(~"max-height 0.9s ease 0s, opacity 0.9s ease 0s, visibility 0.9s");
+			// .transition(~"opacity 0.9s ease 0s, visibility 0.9s");
+		// }
+		
+		.folders_search_label {
+			position: relative;
+		}
+
+		.folders_search_select {
+		   display: inline-block;
+		   margin-right: 8px;
+		   position: relative;
+	   }
+
+	   .link,
+	   .link:hover {
+		   border-bottom: 1px dashed @theme-settings-filter-link-color;
+		   color: @theme-settings-filter-link-color;
+		   text-decoration: none;
+	   }
+   }
+}

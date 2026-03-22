@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+    configVersion="3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://www.phpdoc.org"
+    xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <title>Afterlogic Aurora Corporate</title>
+    <paths>
+        <output>./../../docs/api/</output>
+    </paths>
+    <version number="0.9.0">
+        <api format="php">
+	    <visibility>public</visibility>
+            <source dsn="./../../">
+                <!-- <path>modules/Core/**/*</path>-->
+                <path>modules/**/*</path>
+                <path>system/**/*</path>
+            </source>
+	    <ignore hidden="true" symlinks="true">
+		<path>managers/**/*</path>
+		<path>Dropbox/**/*</path>
+		<path>Google/**/*</path>
+		<path>OAuthClient/**/*</path>
+		<path>Licensing/**/*</path>
+		<path>TwoFactorAuth/Classes/WebAuthn/**/*</path>
+	    </ignore>
+	    <!-- <default-package-name>MyPackage</default-package-name> -->
+	    <include-source>true</include-source>
+        </api>
+    </version>
+</phpdocumentor>

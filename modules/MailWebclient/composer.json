@@ -1,0 +1,13 @@
+{
+	"name": "afterlogic/aurora-module-webclient-mail",
+	"type": "aurora-module",
+	"require":{
+		"afterlogic/aurora-framework": "~0.10.0"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "MailWebclient"
+	}
+}

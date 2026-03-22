@@ -1,0 +1,16 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "AvailableFor": [
+        [
+            "MailWebclient"
+        ],
+        "array",
+        null,
+        "Automatically provide this feature if one of the listed modules is requested by the entry point"
+    ]
+}

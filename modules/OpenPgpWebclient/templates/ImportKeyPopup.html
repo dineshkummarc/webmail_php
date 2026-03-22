@@ -1,0 +1,41 @@
+<div class="popup" style="display: none;">
+	<div class="mask" data-bind="click: cancelPopup"></div>
+	<div class="popup_panel">
+		<span class="close" data-bind="click: cancelPopup"></span>
+		<span class="popup_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_IMPORT_KEY'}"></span>
+
+		<div class="fields">
+			<div class="row" data-bind="visible: !keysChecked()">
+				<textarea class="input import_pgp_key_area"
+						  data-bind="value: keyArmor, hasfocus: keyArmorFocused"
+				></textarea>
+			</div>
+
+			<div class="row import_pgp_key_area"
+				 data-bind="visible: keysChecked, customScrollbar: {x: false}"
+			>
+				<div class="scroll-inner">
+					<!-- ko if: !shouldAddToPersonalContact() -->
+						<!-- ko template: '%ModuleName%_ImportKeyPopup_StandardView' --><!-- /ko -->
+					<!-- /ko -->
+					<!-- ko if: shouldAddToPersonalContact -->
+						<!-- ko template: '%ModuleName%_ImportKeyPopup_ToContactsView' --><!-- /ko -->
+					<!-- /ko -->
+				</div>
+			</div>
+
+			<div class="buttons">
+				<span class="button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_CHECK'},
+					  click: checkArmor, visible: !keysChecked()"
+				></span>
+				<span class="button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_IMPORT_KEYS'},
+					  click: importKey, visible: visibleImportKeysButton"
+				></span>
+				<span class="button secondary_button"
+					  data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'}, click: cancelPopup"
+				></span>
+			</div>
+		</div>
+	</div>
+	<span class="helper"></span>
+</div>

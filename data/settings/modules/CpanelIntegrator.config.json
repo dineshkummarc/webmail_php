@@ -1,0 +1,64 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "CpanelHost": [
+        "127.0.0.1",
+        "string",
+        null,
+        "Hostname of cPanel server the integration is configured for"
+    ],
+    "CpanelPort": [
+        "2083",
+        "string",
+        null,
+        "Port number used to connect to cPanel server"
+    ],
+    "CpanelUser": [
+        "",
+        "string",
+        null,
+        "User account used for integration with cPanel server"
+    ],
+    "CpanelPassword": [
+        "",
+        "string",
+        null,
+        "Password of the account used for integration with cPanel server"
+    ],
+    "UserDefaultQuotaMB": [
+        1,
+        "int",
+        null,
+        "Default quota of new email accounts created on cPanel"
+    ],
+    "SupportedServers": [
+        [
+            "*"
+        ],
+        "array",
+        null,
+        "List of mail servers the integration applies to, * for all the mail servers"
+    ],
+    "AllowCreateDeleteAccountOnCpanel": [
+        false,
+        "bool",
+        null,
+        "Enables managing email accounts from within adminpanel interface of our product"
+    ],
+    "AllowAliases": [
+        false,
+        "bool",
+        null,
+        "Enables creating mail aliases from our adminpanel"
+    ],
+    "ForwardScriptPath": [
+        "",
+        "string",
+        null,
+        "Filesystem location of custom mail forwarder, defaults to scripts\/process_mail.php file"
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "ExpandZipFilesLimit": [
+        500,
+        "int",
+        null,
+        "Sets a limit for number of files shown when expanding ZIP archive"
+    ],
+    "IncludeInMobile": [
+        true,
+        "bool",
+        null,
+        "If true, the module is used in mobile version of the interface"
+    ],
+    "AvailableFor": [
+        [
+            "MailWebclient"
+        ],
+        "array",
+        null,
+        "Automatically provide this feature if one of the listed modules is requested by the entry point"
+    ]
+}

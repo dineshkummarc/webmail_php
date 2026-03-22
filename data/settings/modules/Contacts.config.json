@@ -1,0 +1,46 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "ContactsPerPage": [
+        20,
+        "int",
+        null,
+        "Number of contacts displayer ped page"
+    ],
+    "ImportContactsLink": [
+        "https:\/\/afterlogic.com\/docs\/webmail-lite-8\/frequently-asked-questions\/importing-contacts",
+        "string",
+        null,
+        "URL of documentation page that explains structure of CSV files used"
+    ],
+    "AllowAddressBooksManagement": [
+        false,
+        "bool",
+        null,
+        "Setting to true enables managing multiple address books"
+    ],
+    "AllowEditTeamContactsByTenantAdmins": [
+        false,
+        "bool",
+        null,
+        "Setting to true allows tenant admin to edit Team address book entries"
+    ],
+    "ContactsSortBy": [
+        {
+            "Allow": false,
+            "DisplayOptions": [
+                "Name",
+                "Email"
+            ],
+            "DefaultSortBy": "Name",
+            "DefaultSortOrder": "Asc"
+        },
+        "array",
+        null,
+        "Defines a set of rules for sorting contacts. Name|Email|Frequency|FirstName|LastName. DefaultSortOrder - Asc|Desc"
+    ]
+}

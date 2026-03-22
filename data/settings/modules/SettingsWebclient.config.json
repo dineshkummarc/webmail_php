@@ -1,0 +1,26 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "TabsOrder": [
+        [
+            "common",
+            "mail",
+            "mail-accounts",
+            "contacts",
+            "manage-addressbooks",
+            "calendar",
+            "files",
+            "mobilesync",
+            "outlooksync",
+            "helpdesk",
+            "openpgp"
+        ],
+        "array",
+        null,
+        "Defines list of tabs and the order they're displayed in"
+    ]
+}

@@ -1,0 +1,114 @@
+{
+	"system": {
+		"XFrameOptions": "SAMEORIGIN"
+	},
+	"modules": {
+		"Core": {
+			"SiteName": "Afterlogic WebMail Lite PHP",
+			"ProductName": "Afterlogic WebMail Lite PHP",
+			"EnableFailedLoginBlock": true,
+			"LoginBlockAvailableTriesCount": 10,
+			"LoginBlockDurationMinutes": 3
+		},
+		"CoreWebclient": {
+			"HeaderModulesOrder": ["mail", "contacts"],
+			"DefaultAnonymScreenHash": "login",
+			"DefaultUserScreenHash": "mail",
+			"ThemeList": ["Default", "DefaultDark", "DeepForest", "Funny", "Sand"]
+		},
+		"Dav": {
+			"Disabled": true
+		},
+		"SessionTimeoutWebclient": {
+			"Disabled": true
+		},
+		"Dropbox": {
+			"Disabled": true
+		},
+		"DropboxAuthWebclient": {
+			"Scopes": "auth"
+		},
+		"Mail": {
+			"MessagesSortBy": {
+				"Allow": true,
+				"List": [],
+				"DefaultSortBy": "arrival",
+				"DefaultSortOrder": "desc"
+			},
+			"AllowDefaultAccountForUser": true,
+			"AutocreateMailAccountOnNewUserFirstLogin": true,
+			"XOriginatingIPHeaderName": ""
+		},
+		"MailWebclient": {
+			"AllowSearchMessagesBySubject": true
+		},
+		"OAuthIntegratorWebclient": {
+			"AllowNewUsersRegister": false
+		},
+		"ChangePasswordWebclient": {
+			"Disabled": true
+		},
+		"MailChangePasswordPoppassdPlugin": {
+			"Disabled": true
+		},
+		"MailSaveMessageAsPdfPlugin": {
+			"Disabled": true
+		},
+		"MailTnefWebclientPlugin": {
+			"Disabled": true
+		},
+		"MailAuthCpanel": {
+			"Disabled": true
+		},
+		"MailSignupDirectadmin": {
+			"Disabled": true
+		},
+		"MailSignupPlesk": {
+			"Disabled": true
+		},
+		"CpanelIntegrator": {
+			"Disabled": true
+		},
+		"StandardLoginFormWebclient": {
+			"UseDropdownLanguagesView": true,
+			"BottomInfoHtmlText": "Powered by <a href=\"https:\/\/afterlogic.org\/webmail-lite\" target=\"_blank\">Afterlogic WebMail Lite</a>"
+		},
+		"RecaptchaWebclientPlugin": {
+			"Disabled": true
+		},
+		"MailMasterPassword": {
+			"Disabled": true
+		},
+		"MailNotesPlugin": {
+			"Disabled": true
+		},
+		"MailLoginFormWebclient": {
+			"Disabled": true,
+			"UseDropdownLanguagesView": true,
+			"BottomInfoHtmlText": "Powered by <a href=\"https:\/\/afterlogic.com\/webmail-lite\" target=\"_blank\">Afterlogic WebMail Lite</a>"
+		},
+		"SecuritySettingsWebclient": {
+			"Disabled": true
+		},
+		"IPAllowList": {
+			"Disabled": true
+		},
+		"TwoFactorAuth": {
+			"Disabled": true,
+			"FacetIds": [
+				"android:apk-key-hash:fbENTvCSeR-AwJV5rrrBsb98p-jEw0c5SSOMul_KwaI",
+				"android:apk-key-hash:ruyLw8eJtT5fZ1ZusXSCHTp0yMZIlr6CVx5kq76ApiQ",
+				"android:apk-key-hash:aEdaWviMajF83fPsXVc1yaZVUy1OiKakbZqP62f5D48"
+			]
+		},
+		"OverrideUserSettings": {
+			"Disabled": true
+		},
+		"Contacts": {
+			"ImportContactsLink": "https://afterlogic.com/docs/webmail-lite-8/frequently-asked-questions/importing-contacts"
+		},
+		"StandardResetPassword": {
+			"Disabled": true
+		}
+	}
+}

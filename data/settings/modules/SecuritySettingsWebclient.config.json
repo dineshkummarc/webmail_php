@@ -1,0 +1,19 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "ModulesOrder": [
+        [
+            "ChangePasswordWebclient",
+            "StandardResetPassword",
+            "IPAllowList",
+            "TwoFactorAuth"
+        ],
+        "array",
+        null,
+        "Defines list of modules to be used and the order they're displayed in"
+    ]
+}

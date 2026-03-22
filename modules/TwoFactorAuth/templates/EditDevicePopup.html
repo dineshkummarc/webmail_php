@@ -1,0 +1,40 @@
+<div class="popup" style="display: none">
+  <div class="mask"></div>
+  <div class="popup_panel">
+    <span class="close" data-bind="click: cancelPopup"></span>
+    <div class="fields">
+      <div class="hint" data-bind="i18n: {'key': '%MODULENAME%/HINT_DEVICE_CUSTOM_NAME'}"></div>
+      <div class="fieldset">
+        <div class="row">
+          <span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_DEVICE_UA_NAME'}"></span>
+          <span class="value" data-bind="text: customUaName"></span>
+        </div>
+        <div class="row">
+          <span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_DEVICE_CUSTOM_NAME'}"></span>
+          <input
+            class="value input"
+            type="text"
+            spellcheck="false"
+            maxlength="255"
+            data-bind="value: customName, valueUpdate: 'afterkeydown', onEnter: saveCustomName"
+          />
+        </div>
+      </div>
+      <div class="buttons">
+        <span
+          class="button"
+          data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}, click: saveCustomName, visible: !inProgress()"
+        ></span>
+        <span
+          class="button"
+          data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE_IN_PROGRESS'}, visible: inProgress()"
+        ></span>
+        <span
+          class="button secondary_button"
+          data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'}, click: cancelPopup"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <span class="helper"></span>
+</div>

@@ -1,0 +1,26 @@
+{
+	"name": "afterlogic/dav",
+	"type": "library",
+	"description": "Afterlogic DAV Server",
+	"homepage": "https://github.com/afterlogic/dav",
+	"authors": [
+		{
+			"name": "AfterLogic",
+			"email": "support@afterlogic.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"sabre/dav": "4.*"
+	},
+	"autoload": {
+        "psr-4" : {
+            "Afterlogic\\DAV\\": "lib/DAV/"
+        }	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
+}

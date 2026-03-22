@@ -1,0 +1,14 @@
+{
+	"name": "afterlogic/aurora-module-webclient-contacts",
+	"type": "aurora-module",
+	"require": {
+		"afterlogic/aurora-framework": "~0.10.0",
+		"afterlogic/aurora-module-contacts": "~0.10.0"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "ContactsWebclient"
+	}
+}

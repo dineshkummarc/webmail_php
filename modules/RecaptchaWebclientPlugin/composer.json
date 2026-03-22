@@ -1,0 +1,15 @@
+{
+	"name": "afterlogic/aurora-module-webclient-recaptcha-plugin",
+	"type": "aurora-module",
+	"require": {
+		"php": ">=5.4.0",
+		"afterlogic/aurora-framework": "^0.10.122",
+		"google/recaptcha": "^1.2"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "RecaptchaWebclientPlugin"
+	}
+}

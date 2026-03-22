@@ -1,0 +1,58 @@
+<div class="panel_top">
+	<h2 class="settings_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_SETTINGS_TAB'}"></h2>
+</div>
+
+<div class="panel_center">
+	<div class="fields">
+		<div class="fieldset">
+			<div class="row" data-bind="visible: isMailAvailable">
+				<span class="value">
+					<label class="custom_checkbox" data-bind="css: {'checked': enableOpenPgpInMail}">
+						<span class="icon"></span>
+						<input type="checkbox" id="enableOpenPgpInMail" data-bind="checked: enableOpenPgpInMail" />
+					</label>
+					<label for="enableOpenPgpInMail" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ENABLE_OPENPGP'}"></label>
+				</span>
+			</div>
+			<div class="row" data-bind="visible: isMailAvailable">
+				<span class="value hint" data-bind="i18n: {'key': '%MODULENAME%/INFO_ALLOW_AUTOSAVE'}"></span>
+			</div>
+			<div class="row">
+				<span class="value">
+					<label class="custom_checkbox" data-bind="css: {'checked': rememberPassphrase}">
+						<span class="icon"></span>
+						<input type="checkbox" id="rememberPassphrase" data-bind="checked: rememberPassphrase" />
+					</label>
+					<label for="rememberPassphrase" data-bind="i18n: {'key': '%MODULENAME%/LABEL_REMEMBER_PASSPHRASE'}"></label>
+				</span>
+			</div>
+			<div class="row">
+				<span class="value hint" data-bind="i18n: {'key': '%MODULENAME%/INFO_REMEMBER_PASSPHRASE'}"></span>
+			</div>
+		</div>
+		<div class="buttons">
+			<span class="button" data-bind="click: save, visible: !isSaving()">
+				<span data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}"></span>
+			</span>
+			<span class="button" data-bind="visible: isSaving()">
+				<span data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE_IN_PROGRESS'}"></span>
+			</span>
+		</div>
+
+		<!-- ko template: '%ModuleName%_OpenPgpSettingsForm_KeysFromThisDeviceView' --><!-- /ko -->
+
+		<!-- ko template: '%ModuleName%_OpenPgpSettingsForm_PublicKeysFromPersonalContactsView' --><!-- /ko -->
+
+		<div class="buttons">
+			<span data-bind="click: exportAllPublicKeys" class="button">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_EXPORT_ALL_PUBLIC_KEYS'}"></span>
+			</span>
+			<span data-bind="click: importKey" class="button">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_IMPORT_KEY'}"></span>
+			</span>
+			<span data-bind="click: generateNewKey" class="button">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_GENERATE_NEW_KEY'}"></span>
+			</span>
+		</div>
+	</div>
+</div>

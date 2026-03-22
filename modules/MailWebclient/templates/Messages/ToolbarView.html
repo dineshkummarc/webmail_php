@@ -1,0 +1,29 @@
+<div class="toolbar">
+	<span class="resizer" data-bind="event: { 'dblclick': resizeDblClick}"></span>
+	<span class="content">
+		<span class="item checkstate" data-bind="command: checkMailCommand, checkstate: {'activeClass': 'process', 'state': checkMailIndicator(), 'duration': 800},
+				customTooltip: '%MODULENAME%/ACTION_CHECK_MAIL'" id="selenium_mail_check_button">
+			<span class="icon"></span>
+			<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_CHECK_MAIL'}"></span>
+		</span>
+
+		<!-- ko template: {name: '%ModuleName%_Messages_MarkButtonView'} --><!-- /ko -->
+
+		<!-- ko template: {name: moveToFolderTemplate} --><!-- /ko -->
+
+		<!-- ko template: {name: '%ModuleName%_Messages_DeleteButtonView'} --><!-- /ko -->
+
+		<span class="item empty_trash" data-bind="command: emptyTrashCommand, visible: isTrashFolder(), customTooltip: '%MODULENAME%/ACTION_EMPTY_TRASH'">
+			<span class="icon"></span>
+			<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EMPTY_TRASH'}"></span>
+		</span>
+		<span class="item empty_spam" data-bind="command: emptySpamCommand, visible: isSpamFolder(), customTooltip: '%MODULENAME%/ACTION_EMPTY_SPAM'">
+			<span class="icon"></span>
+			<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EMPTY_SPAM'}"></span>
+		</span>
+
+		<!-- ko template: {name: '%ModuleName%_Messages_SpamButtonsView'} --><!-- /ko -->
+
+		<!-- ko template: {name: '%ModuleName%_Messages_SortButtonView'} --><!-- /ko -->
+	</span>
+</div>

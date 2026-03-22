@@ -1,0 +1,26 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "AuthModuleName": [
+        "StandardAuth",
+        "string",
+        null,
+        "Reserved for authentication by login\/password that relies on database"
+    ],
+    "OnlyPasswordForAccountCreate": [
+        true,
+        "bool",
+        null,
+        "Enables adding password for Outlook Sync and Mobile Sync settings screen for otherwise passwordless accounts"
+    ],
+    "AllowNewUsersRegister": [
+        false,
+        "bool",
+        null,
+        "Enables creating new user account on first login with a social account"
+    ]
+}

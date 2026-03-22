@@ -1,0 +1,20 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "SuperadminWhitelistIp": [
+        [],
+        "array",
+        null,
+        "If non-empty, only listed IPs are allowed access from"
+    ],
+    "AllowLoginFromCoreModule": [
+        false,
+        "bool",
+        null,
+        "If set to true, superadmin account is allowed to log into main login page"
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "TimeoutMinutes": [
+        30,
+        "int",
+        null,
+        "Time interval of inactivity the users are logged after"
+    ],
+    "IncludeInMobile": [
+        true,
+        "bool",
+        null,
+        "If true, the module is used in mobile version of the interface"
+    ]
+}

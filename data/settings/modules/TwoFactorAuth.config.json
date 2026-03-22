@@ -1,0 +1,80 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "ShowRecommendationToConfigure": [
+        false,
+        "bool",
+        null,
+        "If true, users will get a message suggesting to enable 2FA if it's not enabled in their accounts yet"
+    ],
+    "AllowSecurityKeys": [
+        false,
+        "bool",
+        null,
+        "Enables support for security keys"
+    ],
+    "FacetIds": [
+        [
+            "android:apk-key-hash:fbENTvCSeR-AwJV5rrrBsb98p-jEw0c5SSOMul_KwaI",
+            "android:apk-key-hash:ruyLw8eJtT5fZ1ZusXSCHTp0yMZIlr6CVx5kq76ApiQ",
+            "android:apk-key-hash:aEdaWviMajF83fPsXVc1yaZVUy1OiKakbZqP62f5D48"
+        ],
+        "array",
+        null,
+        "List of app-key-hashes of mobile apps"
+    ],
+    "AllowAuthenticatorApp": [
+        true,
+        "bool",
+        null,
+        "Enables use of authenticator app"
+    ],
+    "ClockTolerance": [
+        2,
+        "int",
+        null,
+        "Value set to N means that codes starting from N * 30sec ago to N * 30sec from now are accepted"
+    ],
+    "AllowBackupCodes": [
+        true,
+        "bool",
+        null,
+        "If set to true, and if authenticator app or security key configured, users are able to use backup codes"
+    ],
+    "AllowUsedDevices": [
+        false,
+        "bool",
+        null,
+        "Enables managing trusted devices"
+    ],
+    "TrustDevicesForDays": [
+        0,
+        "int",
+        null,
+        "Allows for expiry of trusted device list entries after certain amount of days; if set to 0, managing trusted devices is disabled."
+    ],
+    "IncludeInMobile": [
+        true,
+        "bool",
+        null,
+        "If true, the module is used in mobile version of the interface"
+    ],
+    "IncludeInDesktop": [
+        true,
+        "bool",
+        null,
+        "If true, the module is used in desktop version of the interface"
+    ],
+    "RequireInMobile": [
+        [
+            "StandardLoginFormWebclient"
+        ],
+        "array",
+        null,
+        "List of other modules required by this module"
+    ]
+}

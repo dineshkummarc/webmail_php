@@ -1,0 +1,14 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "IncludeInMobile": [
+        true,
+        "bool",
+        null,
+        "If true, the module is used in mobile version of the interface"
+    ]
+}

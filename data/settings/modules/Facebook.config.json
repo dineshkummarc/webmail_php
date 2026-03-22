@@ -1,0 +1,26 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "EnableModule": [
+        false,
+        "bool",
+        null,
+        "Setting to true allows for using and configuring the module"
+    ],
+    "Id": [
+        "",
+        "string",
+        null,
+        "App ID obtained from Facebook Developer console"
+    ],
+    "Secret": [
+        "",
+        "string",
+        null,
+        "App Secret obtained from Facebook Developer console"
+    ]
+}

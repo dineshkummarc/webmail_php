@@ -1,0 +1,12 @@
+<span data-bind="visible: visible() && !disableMoveTo(), attr: {'class': 'item folder-level' + (getDisplayedLevel() + 1)}, css: {'system': isSystem, 'user': !isSystem()}">
+	<span class="folder" data-bind="attr: {'data-folder': canBeSelected() ? fullName() : ''}, 
+		  css: {'disabled': !$root.isSearchMultiFolders() && selected(), 'unselectable': !canBeSelected()}">
+		<span class="title" data-bind="text: displayName"></span>
+	</span>
+	<!-- ko if: !bNamespace -->
+		<span class="children" data-bind="template: { name: '%ModuleName%_MoveToFolderView', foreach: subfolders }"></span>
+	<!-- /ko -->
+</span>
+<!-- ko if: bNamespace -->
+	<!-- ko template: {name: '%ModuleName%_MoveToFolderView', foreach: subfolders} --><!-- /ko -->
+<!-- /ko -->

@@ -1,0 +1,104 @@
+<div class="panel_center" data-bind="customScrollbar: {x: false}">
+	<div class="scroll-inner">
+		<div class="items_list">
+			<div class="item canSelect" data-bind="visible: showAllContacts,
+					css: {'selected': 'all' === selectedStorage()},
+					click: $parent.gotoContactList">
+				<span class="title" data-bind="click: function () { changeGroupType('all'); }">
+					<span class="name fadeout">
+						<span class="icon"></span>
+						<span class="text animGoal" data-bind="text: getStorageDisplayName('all')"></span>
+					</span>
+				</span>
+			</div>
+			
+			<div class="item canSelect" data-bind="visible: showPersonalContacts, 
+					css: {'selected': 'personal' === selectedStorage()},
+					click: $parent.gotoContactList">
+				<span class="title" id="selenium_contacts_personal_button" data-bind="
+						css: {'recivedAnim': recivedAnimPersonal()},
+						droppable: {valueFunc: function (oEvent, oUi) { $root.contactsDropToAddressbook('personal', oEvent, oUi); }, switchObserv: disableDropToPersonal},
+						click: function () { changeGroupType('personal'); }">
+					<span class="name fadeout">
+						<span class="icon type1"></span>
+						<span class="text animGoal" data-bind="text: getStorageDisplayName('personal')"></span>
+					</span>
+					<!-- ko if: $parent.shareAddressbookControlView -->
+						<!-- ko with: {Id: 'personal', Shared: false} -->
+							<!-- ko template: { name: $parent.shareAddressbookControlView.ViewTemplate, data: $parent.shareAddressbookControlView} --><!-- /ko -->
+						<!-- /ko -->
+					<!-- /ko -->
+				</span>
+			</div>
+
+			<div class="item canSelect" data-bind="visible: showSharedToAllContacts, 
+					css: {'selected': 'shared' === selectedStorage()},
+					click: $parent.gotoContactList">
+				<span class="title" data-bind="
+						css: {'recivedAnim': recivedAnimShared()},
+						droppable: {valueFunc: function (oEvent, oUi) { $root.contactsDropToAddressbook('shared', oEvent, oUi); }, switchObserv: disableDropToSharedWithAll},
+						click: function () { changeGroupType('shared'); }">
+					<span class="name fadeout">
+						<span class="icon type3"></span>
+						<span class="text animGoal" data-bind="text: getStorageDisplayName('shared')"></span>
+					</span>
+				</span>
+			</div>
+
+			<div class="item canSelect" data-bind="visible: showTeamContacts, 
+					css: {'selected': isTeamStorageSelected},
+					click: $parent.gotoContactList">
+				<span class="title" data-bind="click: function () { changeGroupType('team'); }, css: {'recivedAnim': recivedAnimTeam()}">
+					<span class="name fadeout">
+						<span class="icon type2"></span>
+						<span class="text animGoal" data-bind="text: getStorageDisplayName('team')"></span>
+					</span>
+				</span>
+			</div>
+			
+			<!-- ko foreach: addressBooks -->
+				<div class="item canSelect" data-bind="
+						if: Id !== 'team' && Id !== 'personal' && Id !== 'shared',
+						visible: Display, 
+						css: {'selected': $parent.selectedStorage() === Id},
+						click: $parents[0].gotoContactList">
+					<span class="title" data-bind="
+						click: function () { $parent.changeGroupType(Id); },
+						droppable: {valueFunc: function (oEvent, oUi) { $root.contactsDropToAddressbook(Id, oEvent, oUi); }, switchObserv: $root.disableDropToCustomAddressBook},
+						css: {'recivedAnim': $parent.recivedAnimTeam()}">
+						<span class="name fadeout">
+							<span class="icon type1"></span>
+							<span class="text animGoal" data-bind="text: DisplayName"></span>
+						</span>
+						<!-- ko if: $parent.shareAddressbookControlView -->
+							<!-- ko template: { name: $parent.shareAddressbookControlView.ViewTemplate, data: $parent.shareAddressbookControlView} --><!-- /ko -->
+						<!-- /ko -->
+					</span>
+				</div>
+			<!-- /ko -->
+
+			<div data-bind="visible: showPersonalContacts() && 0 < groupFullCollection().length">
+				<div class="section_title fadeout" data-bind="i18n: {'key': '%MODULENAME%/HEADING_GROUPS'}"></div>
+				<div class="items_section" data-bind="foreach: groupFullCollection">
+					<div class="item canSelect" data-bind="css: {'selected': selected}">
+						<span class="title" data-bind="
+							css: {'recivedAnim': recivedAnim()}, 
+							droppable: {valueFunc: function (oEvent, oUi) { $root.contactsDrop($data, oEvent, oUi); }, switchObserv: selected},
+							click: function () { $root.onViewGroupClick($data); }
+						">
+							<span class="name fadeout">
+								<span class="icon type4"></span>
+								<span class="text animGoal" data-bind="text: Name()"></span>
+							</span>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="panel_bottom">
+	<div class="manage_folders" data-bind="visible: manageAddressBooksHash() !== '#'">
+		<a href="javascript: void(0)" data-bind="i18n: {'key': '%MODULENAME%/ACTION_MANAGE_ADDRESSBOOKS'}, attr: {href: manageAddressBooksHash}"></a>
+	</div>
+</div>

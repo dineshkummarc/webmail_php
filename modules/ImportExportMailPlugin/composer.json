@@ -1,0 +1,17 @@
+{
+	"name": "afterlogic/aurora-module-import-export-mail-plugin",
+	"type": "aurora-module",
+	"require": {
+		"php": ">=5.4.0",
+		"afterlogic/aurora-framework": "~0.10.0",
+		"afterlogic/aurora-module-mail": "~0.10.0",
+		"afterlogic/aurora-module-webclient-mail": "~0.10.0",
+		"maennchen/zipstream-php": "^2.2.6"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "ImportExportMailPlugin"
+	}
+}

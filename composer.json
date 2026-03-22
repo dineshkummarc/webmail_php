@@ -1,0 +1,126 @@
+{
+	"config": {
+		"minimum-stability": "dev",
+		"preferred-install": {
+			"afterlogic/*": "source"
+		},
+		"platform-check": false,
+		"allow-plugins": {
+			"composer/installers": true,
+			"oomphinc/composer-installers-extender": true
+		}
+	},
+	"repositories": [
+		{
+			"type": "package",
+            "package": {
+				"name": "gufy/cpanel-php",
+				"version": "1.1.0",
+				"dist": {
+					"type": "zip",
+					"url": "https://api.github.com/repos/mgufrone/cpanel-php/zipball/a6e2becf590cdfb2c7c2feea4c6682b665761eb4",
+					"reference": "a6e2becf590cdfb2c7c2feea4c6682b665761eb4",
+					"shasum": ""
+				},
+				"require": {
+					"guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
+					"php": ">=5.3.7"
+				},
+				"type": "library",
+				"autoload": {
+					"psr-0": {
+						"Gufy\\CpanelPhp\\": "src/"
+					}
+				}
+			}
+		},
+		{
+			"type": "composer", "url":"https://afterlogic.com/composer/"
+		}
+	],
+	"require": {
+		"oomphinc/composer-installers-extender": "^2.0",
+		
+		"afterlogic/aurora-framework": "~0.10.0",
+		"afterlogic/aurora-dev-tools": "~0.10.0",
+
+		"psr/http-message": "^1.1",
+		
+		"afterlogic/aurora-module-admin-auth": "~0.10.0",
+		"afterlogic/aurora-module-webclient-adminpanel": "~0.10.0",
+		"afterlogic/aurora-module-webclient-tenant-adminpanel": "~0.10.0",
+		"afterlogic/aurora-module-webclient-logs-viewer": "~0.10.0",
+		"afterlogic/aurora-module-contacts": "~0.10.0",
+		"afterlogic/aurora-module-webclient-contacts": "~0.10.0",
+		"afterlogic/aurora-module-personal-contacts": "~0.10.0",
+		"afterlogic/aurora-module-dav": "~0.10.0",
+		"afterlogic/aurora-module-dav-contacts": "~0.10.0",
+		"afterlogic/aurora-module-core": "~0.10.0",
+		"afterlogic/aurora-module-webclient-core": "~0.10.93",
+		"afterlogic/aurora-module-dropbox": "~0.10.0",
+		"afterlogic/aurora-module-webclient-dropbox-auth": "~0.10.0",
+		"afterlogic/aurora-module-facebook": "~0.10.0",
+		"afterlogic/aurora-module-webclient-facebook-auth": "~0.10.0",
+		"afterlogic/aurora-module-google": "~0.10.0",
+		"afterlogic/aurora-module-webclient-google-auth": "~0.10.0",
+		"afterlogic/aurora-module-webclient-oauth-integrator": "~0.10.0",
+		
+		"afterlogic/aurora-module-mail": "~0.10.0",
+		"afterlogic/aurora-module-webclient-mail": "~0.10.96",
+		"afterlogic/aurora-module-webclient-mail-sensitivity-plugin": "~0.10.0",
+		"afterlogic/aurora-module-webclient-change-password": "~0.10.0",
+		"afterlogic/aurora-module-mail-notes-plugin": "~0.10.0",
+		"afterlogic/aurora-module-webclient-openpgp": "~0.10.0",
+		"afterlogic/aurora-module-min": "~0.10.0",
+		"afterlogic/aurora-module-webclient-session-timeout": "~0.10.0",
+		"afterlogic/aurora-module-webclient-settings": "~0.10.0",
+		"afterlogic/aurora-module-webclient-standard-login-form": "~0.10.0",
+		"afterlogic/aurora-module-mail-change-password-poppassd-plugin": "~0.10.0",
+		"afterlogic/aurora-module-office-document-viewer": "~0.10.0",
+		"afterlogic/aurora-module-webclient-mail-tnef-plugin": "~0.10.0",
+		"afterlogic/aurora-module-webclient-mail-zip-plugin": "~0.10.0",
+		"afterlogic/aurora-module-mail-save-message-as-pdf-plugin": "~0.10.0",
+		"afterlogic/aurora-module-mail-auth-cpanel": "~0.10.0",
+		"afterlogic/aurora-module-cpanel-integrator": "~0.10.0",
+		"afterlogic/aurora-module-mail-signup-directadmin": "~0.10.0",
+		"afterlogic/aurora-module-mail-signup-plesk": "~0.10.0",
+		"afterlogic/aurora-module-two-factor-auth": "~0.10.0",
+		"afterlogic/aurora-module-import-export-mail-plugin": "~0.10.0",
+		"afterlogic/aurora-module-webclient-recaptcha-plugin": "~0.10.0",
+		"afterlogic/aurora-module-mail-master-password": "~0.10.0",
+		"afterlogic/aurora-module-webclient-mail-login-form": "~0.10.0",
+		
+		"afterlogic/aurora-module-override-user-settings": "~0.10.0",
+		"afterlogic/aurora-module-standard-reset-password": "~0.10.0",
+		"afterlogic/aurora-module-webclient-security-settings": "~0.10.0",
+		"afterlogic/aurora-module-ip-allow-list": "~0.10.0"
+	},
+	"scripts": {
+		"post-install-cmd": "@pre-config",
+		"post-update-cmd": "@pre-config",
+		"pre-config": [
+			"[ -d data ] || mkdir data",
+			"Aurora\\Installer::preConfigSafe"
+		],
+		"force-config": [
+			"[ -d data ] || mkdir data",
+			"Aurora\\Installer::preConfigForce"
+		],
+		"update-configs": [
+			"Aurora\\Installer::updateConfigs"
+		]
+	},
+	"extra": {
+		"aurora-installer-pre-config": "pre-config.json",
+		"installer-types": ["aurora-module", "aurora-framework", "aurora-dev-tools"],
+		"installer-paths": {
+			"special/package/": ["my/package"],
+			"modules/{$name}/": ["type:aurora-module"],
+			"system/": ["type:aurora-framework"],
+			"dev/": ["type:aurora-dev-tools"]
+		}
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^1.9"
+	}
+}

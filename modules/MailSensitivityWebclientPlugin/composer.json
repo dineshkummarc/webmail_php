@@ -1,0 +1,13 @@
+{
+	"name": "afterlogic/aurora-module-webclient-mail-sensitivity-plugin",
+	"type": "aurora-module",
+	"require": {
+		"afterlogic/aurora-framework": "~0.10.0"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "MailSensitivityWebclientPlugin"
+	}
+}

@@ -1,0 +1,14 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "Domains": [
+        [],
+        "array",
+        null,
+        "Defines a list of domains, with a list of features disabled for each of those domains"
+    ]
+}

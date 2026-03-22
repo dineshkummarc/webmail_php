@@ -1,14 +1,13 @@
 <?php
-
-/*
- * AfterLogic Admin Panel by AfterLogic Corp. <support@afterlogic.com>
- *
- * Copyright (C) 2002-2012 AfterLogic Corp. (www.afterlogic.com)
- * Distributed under the terms of the license described in COPYING
- *
- */
-
-	include 'core/cadminpanel.php';
-
-	$oAdminPanel = new CAdminPanel(__FILE__);
-	$oAdminPanel->Run()->End();
+  include_once '../system/autoload.php';
+  
+  use Aurora\System\Api;
+  use Aurora\System\Application;
+  
+  if (is_array($_GET) && count($_GET) > 0) {
+  	Api::Init();
+  	Application::setBaseUrl(\substr(Application::getBaseUrl(), 0, -strlen(basename(__DIR__))-1));
+  	Application::Start();
+  } else {
+  	include_once './main.html';
+  }

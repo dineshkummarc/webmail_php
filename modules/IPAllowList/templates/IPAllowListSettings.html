@@ -1,0 +1,31 @@
+<div class="row hint" data-bind="visible: ipAllowlist().length === 0">
+	<span data-bind="i18n: {'key': '%MODULENAME%/INFO_EMPTY_ALLOWLIST'}"></span>
+</div>
+<div class="row hint" data-bind="visible: ipAllowlist().length > 0">
+	<span data-bind="i18n: {'key': '%MODULENAME%/INFO_ALLOWLIST'}"></span>
+</div>
+<div class="row folders" data-bind="visible: ipAllowlist().length > 0">
+	<div class="folders items_list">
+		<div data-bind="foreach: ipAllowlist">
+			<div class="item canSelect">
+				<span class="title">
+					<span class="controls">
+						<span class="button delete_device" data-bind="
+								click: function () { $parent.askRemoveIp(IP); },
+								customTooltip: '%MODULENAME%/ACTION_REMOVE_IP'">
+						</span>
+					</span>
+					<span class="name">
+						<span class="text">
+							<span class="device-active-icon"
+								  data-bind="visible: IP === $parent.sCurrentIp,
+								  customTooltip: '%MODULENAME%/LABEL_CURRENT_IP'"></span>
+							<span data-bind="text: IP"></span>
+							<div class="text_hint" data-bind="text: Comment"></div>
+						</span>
+					</span>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>

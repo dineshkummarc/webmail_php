@@ -1,0 +1,15 @@
+{
+	"name": "afterlogic/aurora-module-contacts",
+	"type": "aurora-module",
+	"require":{
+		"php":">=5.4.0",
+		"afterlogic/aurora-framework": "~0.10.0",
+		"afterlogic/dav": "3.*|4.*"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "Contacts"
+	}
+}

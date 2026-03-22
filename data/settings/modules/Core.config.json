@@ -1,0 +1,156 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "AllowCapa": [
+        false,
+        "bool",
+        null,
+        "If set to true, product features can be enabled\/disabled on user or tenant level"
+    ],
+    "AllowPostLogin": [
+        false,
+        "bool",
+        null,
+        "If set to true, credentials can be submitted via POST request"
+    ],
+    "CsrfTokenProtection": [
+        true,
+        "bool",
+        null,
+        "If set to true, CSRF protection is enabled"
+    ],
+    "CronTimeToRunSeconds": [
+        10800,
+        "int",
+        null,
+        "Defines intervals in seconds to run a routine of deleting temporary files"
+    ],
+    "CronTimeToKillSeconds": [
+        10800,
+        "int",
+        null,
+        "Defines minimal age in seconds of temporary files to be deleted"
+    ],
+    "CronTimeFile": [
+        ".clear.dat",
+        "string",
+        null,
+        "Defines filename for storing last timestamp when routine of deleting temporary files was run"
+    ],
+    "UserSelectsDateFormat": [
+        false,
+        "bool",
+        null,
+        "If set to true, users can select date format"
+    ],
+    "DateFormat": [
+        "DD\/MM\/YYYY",
+        "spec",
+        "Aurora\\System\\Enums\\DateFormat",
+        "Defines default date format used"
+    ],
+    "DateFormatList": [
+        [
+            "DD\/MM\/YYYY",
+            "MM\/DD\/YYYY",
+            "DD Month YYYY"
+        ],
+        "array",
+        null,
+        "Defines default date format used"
+    ],
+    "LanguageList": [
+        [],
+        "array",
+        null,
+        "Empty array means that every language from every module will be available. [\\\"English\\\", \\\"German\\\"] means that only English and German languages will be used in the system."
+    ],
+    "LanguageListComment": [
+        "",
+        "string",
+        null,
+        "Empty array means that every language from every module will be available. [\\\"English\\\", \\\"German\\\"] means that only English and German languages will be used in the system."
+    ],
+    "Language": [
+        "",
+        "string",
+        null,
+        "Default interface language used"
+    ],
+    "AutodetectLanguage": [
+        true,
+        "bool",
+        null,
+        "Setting to true enables language autodetection"
+    ],
+    "PostLoginErrorRedirectUrl": [
+        ".\/",
+        "string",
+        null,
+        "If login credentials were supplied with POST method, this setting defines redirect URL used when authentication error occurs"
+    ],
+    "TimeFormat": [
+        "F24",
+        "spec",
+        "Aurora\\System\\Enums\\TimeFormat",
+        "Denotes time format used by default"
+    ],
+    "SiteName": [
+        "Afterlogic WebMail Lite PHP",
+        "string",
+        null,
+        "Text used in browser title as a website name"
+    ],
+    "ProductName": [
+        "Afterlogic WebMail Lite PHP",
+        "string",
+        null,
+        "Product name, displayed in About tab of adminpanel"
+    ],
+    "AuthTokenCookieExpireTime": [
+        30,
+        "int",
+        null,
+        "Expiration time for authentication cookie, in days"
+    ],
+    "EnableFailedLoginBlock": [
+        true,
+        "bool",
+        null,
+        "Setting to true enables feature of blocking user after a number of failed login attempts"
+    ],
+    "LoginBlockAvailableTriesCount": [
+        10,
+        "int",
+        null,
+        "Number of failed login attempts which will result in blocking user"
+    ],
+    "LoginBlockDurationMinutes": [
+        3,
+        "int",
+        null,
+        "Number of minutes user will be blocked for upon multiple failed login attempts"
+    ],
+    "LoginBlockIpReputationThreshold ": [
+        0,
+        "int",
+        null,
+        "The setting determines the number of different users that need to be blocked from a specific IP address before that IP is considered to have a bad reputation and blocks any further login attempts from it."
+    ],
+    "AllowGroups": [
+        false,
+        "bool",
+        null,
+        "Setting to true enables user groups which can be managed in adminpanel"
+    ],
+    "CookieSameSite": [
+        "Strict",
+        "string",
+        null,
+        "Sets the SameSite value of system cookies such as AuthToken cookie. Possible values: None, Lax, or Strict"
+    ]
+}

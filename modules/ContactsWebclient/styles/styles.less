@@ -1,0 +1,27 @@
+@import "./desktop/contacts.less";
+@import "./desktop/groups.less";
+@import "./desktop/contact-card.less";
+
+.ContactsLayout {
+	@import "./common/buttons.less";
+}
+
+.panel.groups_panel {
+	.panel_bottom {
+		background: none;
+		border: 0px;
+		border-radius: 0px;
+		height: 30px;
+		padding: 0px;
+	}
+
+	.manage_folders {
+		font-size: 8pt;
+		line-height: 16px;
+		text-align: center;
+	}
+}
+
+.panels.settings .panel.navigation_panel .item.manage-addressbooks .icon:before {
+    content: "\e667";
+}

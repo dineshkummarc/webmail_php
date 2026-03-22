@@ -1,0 +1,32 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "EnableModule": [
+        false,
+        "bool",
+        null,
+        "Setting to true allows for using and configuring the module"
+    ],
+    "Id": [
+        "",
+        "string",
+        null,
+        "App ID obtained from Google app settings"
+    ],
+    "Secret": [
+        "",
+        "string",
+        null,
+        "App secret obtained from Google app settings"
+    ],
+    "Key": [
+        "",
+        "string",
+        null,
+        "API key obtained from Google app settings"
+    ]
+}

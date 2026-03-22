@@ -1,0 +1,14 @@
+{
+	"name": "afterlogic/aurora-module-mail-master-password",
+	"type": "aurora-module",
+	"require": {
+		"php": ">=5.4.0",
+		"afterlogic/aurora-framework": "^0.10.96"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "MailMasterPassword"
+	}
+}

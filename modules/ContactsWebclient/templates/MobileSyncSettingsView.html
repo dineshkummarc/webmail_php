@@ -1,0 +1,10 @@
+<div class="fieldgroup">
+	<h2 class="subheading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_CARDDAV_ACCESS'}"></h2>
+
+	<!-- ko foreach: AddressBooks -->
+	<div class="row">
+		<span class="label" data-bind="text: DisplayName"></span>
+		<span class="value" data-bind="text: DavUrl"></span>
+	</div>
+	<!-- /ko -->
+</div>

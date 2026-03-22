@@ -1,0 +1,10 @@
+<div class="buttons">
+	<span class="button" href="javascript: void(0)" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SEND_CONTACT'}, 
+			click: sendThisContact, visible: allowSendThisContact && $root.bAllowComposeMessageToAddresses"></span>
+	<span class="button last_button" href="javascript: void(0)" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EMAIL_TO_CONTACT'}, 
+			makeLinkComposeMailTo: getFullEmail(), visible: hasEmails && $root.bAllowComposeMessageToAddresses" style="display: none;"></span>
+
+	<!-- ko foreach: customCommands -->
+	<span class="button" data-bind="command: Command, css: CssClass, text: Text, visible: Visible"></span>
+	<!-- /ko -->
+</div>

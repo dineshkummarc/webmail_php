@@ -1,0 +1,68 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "ServerModuleName": [
+        "MailLoginFormWebclient",
+        "string",
+        null,
+        "Defines name of the module responsible for login page"
+    ],
+    "HashModuleName": [
+        "mail",
+        "string",
+        null,
+        "Defines hash of the module responsible for login page"
+    ],
+    "CustomLoginUrl": [
+        "",
+        "string",
+        null,
+        ""
+    ],
+    "DemoLogin": [
+        "",
+        "string",
+        null,
+        "If set, denotes email address of predefined demo account"
+    ],
+    "DemoPassword": [
+        "",
+        "string",
+        null,
+        "If set, denotes password of predefined demo account"
+    ],
+    "InfoText": [
+        "",
+        "string",
+        null,
+        "Defines additional text message shown on login page"
+    ],
+    "BottomInfoHtmlText": [
+        "Powered by \u003Ca href=\"https:\/\/afterlogic.com\/webmail-lite\" target=\"_blank\"\u003EAfterlogic WebMail Lite\u003C\/a\u003E",
+        "string",
+        null,
+        "Defines bottom text message shown on login page"
+    ],
+    "LoginSignMeType": [
+        0,
+        "int",
+        null,
+        ""
+    ],
+    "AllowChangeLanguage": [
+        true,
+        "bool",
+        null,
+        "Enables changing language on login page"
+    ],
+    "UseDropdownLanguagesView": [
+        true,
+        "bool",
+        null,
+        "If true, language selector is presented as a dropdown menu"
+    ]
+}

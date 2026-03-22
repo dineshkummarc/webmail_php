@@ -1,0 +1,21 @@
+<div class="panel_top">
+	<h2 class="settings_heading">
+		<span data-bind="i18n: {'key': '%MODULENAME%/HEADING_IP_ALLOWLIST'}"></span>
+	</h2>
+</div>
+
+<div class="panel_center">
+	<div class="fields">
+		<div class="fieldset">
+			<div class="fieldgroup">
+				<!-- ko template: { name: '%ModuleName%_IPAllowListSettings' } --><!-- /ko -->
+			</div>
+		</div>
+
+		<div class="buttons" style="text-align: left;">
+			<span class="button" data-bind="click: addIpToAllowlist">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_ADD_IP'}"></span>
+			</span>
+		</div>
+	</div>
+</div>

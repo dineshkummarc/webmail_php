@@ -1,0 +1,25 @@
+{
+	"name": "afterlogic/aurora-framework",
+	"type": "aurora-framework",
+	"description": "",
+	"autoload": {
+		"classmap": ["/", "Installer.php"]
+	},
+	"require": {
+		"intervention/image": "^2.4",
+		"symfony/filesystem": "^2.8",
+		"afterlogic/mailso": "^1.4",
+        "illuminate/container": "^8.30",
+        "illuminate/cache": "^8.30",
+        "illuminate/filesystem": "^8.30",
+        "illuminate/database": "^8.30",
+		"illuminate/console": "^8.30",
+		"illuminate/validation": "^8.30",
+		"doctrine/dbal": "^2.12.1",
+		"tijsverkoyen/css-to-inline-styles": "~2.2.6",
+		"lbuchs/webauthn": "^1.1",
+		"barryvdh/laravel-ide-helper": "^2.13",
+		"illuminate/config": "*",
+		"illuminate/events": "*"
+	}
+}

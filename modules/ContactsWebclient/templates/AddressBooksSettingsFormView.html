@@ -1,0 +1,28 @@
+<div class="panel_top">
+	<h2 class="settings_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_MANAGE_ADDRESSBOOKS'}"></h2>
+</div>
+<div class="panel_center">
+	<div class="fields" data-bind="visible: !loading() && addressBooks().length === 0">
+		<div class="fieldset">
+			<div class="hint" style="margin: 0;" data-bind="i18n: {'key': '%MODULENAME%/INFO_NO_ADDRESSBOOKS'}"></div>
+		</div>
+	</div>
+	<div>
+		<div class="items_list simple_list" data-bind="visible: addressBooks().length > 0">
+			<div data-bind="foreach: addressBooks">
+				<div class="item account">
+					<span class="link delete" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_DELETE'},
+							click: function () {$parent.deleteAddressBook(EntityId, DisplayName);}"></span>
+					<span class="link edit" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EDIT'},
+							click: function () {$parent.editAddressBook(EntityId, DisplayName);}"></span>
+					<span class="title" data-bind="text: DisplayName"></span>
+				</div>
+			</div>
+		</div>
+		<div class="buttons">
+			<span class="button" data-bind="click: addAddressBook">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_ADD_ADDRESSBOOK'}"></span>
+			</span>
+		</div>
+	</div>
+</div>

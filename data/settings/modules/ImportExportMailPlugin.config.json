@@ -1,0 +1,14 @@
+{
+    "Disabled": [
+        false,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "UploadSizeLimitMb": [
+        100,
+        "int",
+        null,
+        "Defines upload file size limit, in Mbytes"
+    ]
+}

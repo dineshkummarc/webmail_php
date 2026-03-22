@@ -1,0 +1,15 @@
+{
+	"name": "afterlogic/aurora-module-mail-signup-plesk",
+	"type": "aurora-module",
+	"require": {
+		"php": ">=7.4.0",
+		"afterlogic/aurora-framework": "~0.10.0",
+		"plesk/api-php-lib": "^2.0"
+	},
+	"autoload": {
+		"classmap": ["/"]
+	},
+	"extra": {
+		"installer-name": "MailSignupPlesk"
+	}
+}

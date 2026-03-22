@@ -1,0 +1,50 @@
+{
+    "Disabled": [
+        true,
+        "bool",
+        null,
+        "Setting to true disables the module"
+    ],
+    "PublicKey": [
+        "",
+        "string",
+        null,
+        "Public key obtained at reCAPTCHA website"
+    ],
+    "PrivateKey": [
+        "",
+        "string",
+        null,
+        "Private key obtained at reCAPTCHA website"
+    ],
+    "LimitCount": [
+        0,
+        "int",
+        null,
+        "Denotes number of unsuccessful login attempts required for CAPTCHA to be displayed, 0 - always displayed"
+    ],
+    "WhitelistIPs": [
+        [],
+        "array",
+        null,
+        "List of IP addresses CAPTCHA is never be displayed for"
+    ],
+    "IncludeInMobile": [
+        true,
+        "bool",
+        null,
+        "If true, the module is used in mobile version of the interface"
+    ],
+    "IncludeInDesktop": [
+        true,
+        "bool",
+        null,
+        "If true, the module is used in desktop version of the interface"
+    ],
+    "RequestMethod": [
+        "SocketPost",
+        "spec",
+        "Aurora\\Modules\\RecaptchaWebclientPlugin\\Enums\\RequestMethods",
+        "Request method used by API"
+    ]
+}

@@ -1,0 +1,34 @@
+<div class="popup add_folder" style="display: none;">
+	<div class="mask" data-bind="click: cancelPopup"></div>
+	<div class="popup_panel">
+		<span class="close" data-bind="click: cancelPopup"></span>
+		<span class="popup_heading"
+			  data-bind="i18n: {'key': '%MODULENAME%/HEADING_CREATE_ADDRESSBOOK'},
+			  visible: createMode"></span>
+		<span class="popup_heading"
+			  data-bind="i18n: {'key': '%MODULENAME%/HEADING_EDIT_ADDRESSBOOK'},
+			  visible: !createMode()"></span>
+
+		<div class="fields">
+			<div class="row">
+				<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ADDRESSBOOK_NAME'}"></span>
+				<input type="text" class="value input" spellcheck="false" maxlength="30"
+					   data-bind="value: addressBookName, valueUpdate: 'afterkeydown',
+					   hasfocus: addressBookNameFocus, onEnter: save" />
+			</div>
+			<div class="buttons">
+				<span class="button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CREATE'},
+					  click: save, visible: createMode() && !saving()"></span>
+				<span class="button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CREATE_IN_PROGRESS'},
+					  visible: createMode() && saving()"></span>
+				<span class="button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'},
+					  click: save, visible: !createMode() && !saving()"></span>
+				<span class="button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE_IN_PROGRESS'},
+					  visible: !createMode() && saving()"></span>
+				<span class="button secondary_button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'},
+					  click: cancelPopup, visible: !saving()"></span>
+			</div>
+		</div>
+	</div>
+	<span class="helper"></span>	
+</div>
