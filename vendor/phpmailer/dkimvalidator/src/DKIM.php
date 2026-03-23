@@ -1,41 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPMailer\DKIMValidator;
 
 abstract class DKIM
 {
     /**
      * We use this a lot, so make it a constant
-     * @type string
      */
     public const CRLF = "\r\n";
 
     /**
      * The original, unaltered message
-     * @type string
+     *
+     * @var string
      */
     protected $raw = '';
 
     /**
      * Message headers, as a string with CRLF line breaks
-     * @type string
+     *
+     * @var string
      */
     protected $headers = '';
 
     /**
      * Message headers, parsed into an array
-     * @type array
+     *
+     * @var array
      */
     protected $parsedHeaders = [];
 
     /**
      * Message body, as a string with CRLF line breaks
-     * @type string
+     *
+     * @var string
      */
     protected $body = '';
 
     /**
-     * @type array
+     * @var array
      */
     protected $params = [];
 
@@ -52,7 +57,7 @@ abstract class DKIM
         //Ensure all processing uses UTF-8
         mb_internal_encoding('UTF-8');
         $this->raw = $rawMessage;
-        if (!$this->raw) {
+        if (! $this->raw) {
             throw new DKIMException('No message content provided');
         }
         //Normalize line breaks to CRLF
@@ -74,6 +79,7 @@ abstract class DKIM
      * @param string $style 'relaxed' or 'simple'
      *
      * @return string
+     *
      * @throws DKIMException
      */
     protected function canonicalizeHeaders(array $headers, string $style = 'relaxed'): string
@@ -95,7 +101,10 @@ abstract class DKIM
                     //Lowercase field name
                     $name = strtolower(trim($name));
 
-                    //Unfold header values and collapse whitespace
+                    //Unfold header value
+                    $val = preg_replace('/\r\n[ \t]+/', ' ', $val);
+
+                    //Collapse whitespace to a single space
                     $val = trim(preg_replace('/\s+/', ' ', $val));
 
                     $new[] = "$name:$val";
@@ -151,6 +160,7 @@ abstract class DKIM
      * @param string $format
      *
      * @return array
+     *
      * @throws DKIMException
      */
     protected function getHeadersNamed(string $headerName, string $format = 'raw'): array
@@ -171,7 +181,7 @@ abstract class DKIM
                         break;
                     case 'label_raw':
                         //Complete header including label, may contain line breaks and folding
-                        $matchedHeaders[] = $header['label'] . ' :' . $header['raw'];
+                        $matchedHeaders[] = $header['label'] . ': ' . $header['raw'];
                         break;
                     case 'array':
                         //Complete header including label, may be folded, with each line as an array element
@@ -191,7 +201,7 @@ abstract class DKIM
                         break;
                     case 'label_decoded':
                         //Label and value, unfolded and decoded; may contain UTF-8
-                        $matchedHeaders[] = $header['label'] . ': ' . $header['unfolded'];
+                        $matchedHeaders[] = $header['label'] . ': ' . $header['decoded'];
                         break;
                     default:
                         throw new DKIMException('Invalid header format requested');
@@ -212,6 +222,7 @@ abstract class DKIM
      * @param string $headers
      *
      * @return array
+     *
      * @throws DKIMException
      */
     protected function parseHeaders(string $headers): array
@@ -234,7 +245,7 @@ abstract class DKIM
                         'unfolded'   => $currentHeaderValue,
                         'decoded'    => self::rfc2047Decode($currentHeaderValue),
                         'rawarray'   => $currentRawHeaderLines,
-                        'raw'        => implode(self::CRLF, $currentRawHeaderLines),
+                        'raw'        => implode(self::CRLF . ' ', $currentRawHeaderLines), //Refold lines
                     ];
                 }
                 $currentHeaderLabel = $matches[1];
@@ -276,6 +287,7 @@ abstract class DKIM
     {
         return mb_decode_mimeheader($header);
     }
+
     /**
      * Return the message body.
      *

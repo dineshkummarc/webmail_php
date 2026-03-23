@@ -6,6 +6,7 @@ return PhpCsFixer\Config::create()
         '@Symfony:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
         'binary_operator_spaces' => false,
+        'cast_spaces' => single,
         'concat_space' => ['spacing' => 'one'],
         'heredoc_to_nowdoc' => true,
         'method_argument_space' => true,

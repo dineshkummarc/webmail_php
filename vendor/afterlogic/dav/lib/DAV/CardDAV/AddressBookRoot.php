@@ -125,7 +125,7 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookHome
         }
         $SharedContactsModule = \Aurora\System\Api::GetModule('SharedContacts');
         if ($SharedContactsModule && !$SharedContactsModule->getConfig('Disabled', true)) {
-            if ($this->carddavBackend instanceof Backend\PDO) {
+            if ($this->carddavBackend instanceof \Afterlogic\DAV\CardDAV\Backend\PDO) {
 
                 $sharedWithAllAddressbook = $this->carddavBackend->getSharedWithAllAddressBook($this->principalUri);
                 $objs[] = new SharedWithAll\AddressBook(
@@ -173,7 +173,7 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookHome
         }
 
         $TeamContactsModule = \Aurora\System\Api::GetModule('TeamContacts');
-        if ($TeamContactsModule && !$SharedContactsModule->getConfig('Disabled', true)) {
+        if ($TeamContactsModule && !$TeamContactsModule->getConfig('Disabled', true)) {
             $oUser = Server::getUserObject();
             if ($oUser) {
                 $sPrincipalUri = Constants::PRINCIPALS_PREFIX . $oUser->IdTenant . '_' . Constants::DAV_TENANT_PRINCIPAL;
