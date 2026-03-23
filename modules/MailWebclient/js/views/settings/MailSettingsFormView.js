@@ -27,7 +27,7 @@ function CMailSettingsFormView()
 	this.bAllowChangeStarredMessagesSource = Settings.AllowChangeStarredMessagesSource;
 	this.bAllowMailto = Settings.AllowAppRegisterMailto && MailUtils.isAvailableRegisterMailto();
 	this.bAllowShowMessagesCountInFolderList = Settings.AllowShowMessagesCountInFolderList;
-	this.bAllowHorizontalLayout = Settings.AllowHorizontalLayout;
+	this.bAllowChangeLayout = Settings.AllowChangeLayout;
 	
 	this.mailsPerPageValues = ko.observableArray(Types.getAdaptedPerPageList(Settings.MailsPerPage));
 	this.starredMessagesSourceValues = [
@@ -40,17 +40,22 @@ function CMailSettingsFormView()
 			value: Enums.StarredMessagesSource.AllFolders
 		}
 	];
-	this.aLayoutValues = [
-		{ text: TextUtils.i18n('%MODULENAME%/LABEL_VERT_SPLIT_LAYOUT'), value: false },
-		{ text: TextUtils.i18n('%MODULENAME%/LABEL_HORIZ_SPLIT_LAYOUT'), value: true }
+	
+	this.layoutModeValues = [
+		{ text: TextUtils.i18n('%MODULENAME%/LABEL_VERT_SPLIT_LAYOUT'), value: Enums.LayoutMode.Vertical },
+		{ text: TextUtils.i18n('%MODULENAME%/LABEL_HORIZ_SPLIT_LAYOUT'), value: Enums.LayoutMode.Horizontal },
+		{ text: TextUtils.i18n('%MODULENAME%/LABEL_SEPARATED_LAYOUT'), value: Enums.LayoutMode.Separated }
 	];
+	
 	
 	this.mailsPerPage = ko.observable(Settings.MailsPerPage);
 	this.starredMessagesSource = ko.observable(Settings.StarredMessagesSource);
 	this.allowAutosaveInDrafts = ko.observable(Settings.AllowAutosaveInDrafts);
 	this.allowChangeInputDirection = ko.observable(Settings.AllowChangeInputDirection);
 	this.showMessagesCountInFolderList = ko.observable(Settings.showMessagesCountInFolderList());
-	this.horizontalLayout = ko.observable(Settings.HorizontalLayout);
+	
+	this.layoutMode = ko.observable(Settings.layoutMode());
+	this.layoutModeByDefault = ko.observable(Settings.LayoutByDefault);
 }
 
 _.extendOwn(CMailSettingsFormView.prototype, CAbstractSettingsFormView.prototype);
@@ -69,7 +74,8 @@ CMailSettingsFormView.prototype.getCurrentValues = function ()
 		this.allowAutosaveInDrafts(),
 		this.allowChangeInputDirection(),
 		this.showMessagesCountInFolderList(),
-		this.horizontalLayout()
+		this.layoutMode(),
+		this.layoutModeByDefault()
 	];
 };
 
@@ -80,7 +86,8 @@ CMailSettingsFormView.prototype.revertGlobalValues = function ()
 	this.allowAutosaveInDrafts(Settings.AllowAutosaveInDrafts);
 	this.allowChangeInputDirection(Settings.AllowChangeInputDirection);
 	this.showMessagesCountInFolderList(Settings.showMessagesCountInFolderList());
-	this.horizontalLayout(Settings.HorizontalLayout);
+	this.layoutMode(Settings.layoutMode());
+	this.layoutModeByDefault(Settings.LayoutByDefault);
 };
 
 CMailSettingsFormView.prototype.getParametersForSave = function ()
@@ -91,15 +98,13 @@ CMailSettingsFormView.prototype.getParametersForSave = function ()
 		'AllowAutosaveInDrafts': this.allowAutosaveInDrafts(),
 		'AllowChangeInputDirection': this.allowChangeInputDirection(),
 		'ShowMessagesCountInFolderList': this.showMessagesCountInFolderList(),
-		'HorizontalLayout': this.horizontalLayout()
+		'LayoutMode': this.layoutMode(),
+		'LayoutByDefault': this.layoutModeByDefault()
 	};
 };
 
 CMailSettingsFormView.prototype.applySavedValues = function (parameters)
 {
-	if (parameters.HorizontalLayout !== Settings.HorizontalLayout) {
-		window.location.reload();
-	}
 	Settings.update(parameters);
 };
 

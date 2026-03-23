@@ -5,12 +5,15 @@ var
 	$ = require('jquery'),
 	ko = require('knockout'),
 
+	Utils = require('%PathToCoreWebclientModule%/js/utils/Common.js'),
 	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
 
 	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
 	Api = require('%PathToCoreWebclientModule%/js/Api.js'),
 	ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
-	MailCache = null
+	LinksUtils = require('modules/MailWebclient/js/utils/Links.js'),
+	MailCache = null,
+	MailView = null
 ;
 
 /**
@@ -18,9 +21,10 @@ var
  * @param {object} oMailCache
  * @param {function} fRouteMessageView
  */
-function CMessagePaneView(oMailCache, fRouteMessageView)
+function CMessagePaneView(oMailCache, fRouteMessageView, oMailView)
 {
 	MailCache = oMailCache;
+	MailView = oMailView;
 	this.fRouteMessageView = fRouteMessageView;
 	this.currentMessage = MailCache.currentMessage;
 	this.messageText = ko.observable('');
@@ -37,6 +41,18 @@ function CMessagePaneView(oMailCache, fRouteMessageView)
 	this.saveButtonText = ko.computed(function () {
 		return this.isSaving() ? TextUtils.i18n('COREWEBCLIENT/ACTION_SAVE_IN_PROGRESS') : TextUtils.i18n('COREWEBCLIENT/ACTION_SAVE');
 	}, this);
+
+	const MailSettings =  ModulesManager.run('MailWebclient', 'getSettings');
+
+	this.isSeparatedLayoutMode = ko.computed(function () {
+		return MailSettings.layoutMode() === Enums.LayoutMode.Separated;
+	}, this);
+
+	this.isBackAvailable = ko.computed(function () {
+		return !!this.currentMessage() || this.createMode();
+	}, this)
+
+	this.backCommand = Utils.createCommand(this, this.executeBack, this.isBackAvailable)
 
 	this.bBinded = false;
 }
@@ -143,7 +159,11 @@ CMessagePaneView.prototype.onBind = function ($MailViewDom)
 		}, this)]);
 
 		$(document).on('keydown', $.proxy(function(ev) {
-			if (ev.ctrlKey && ev.keyCode === Enums.Key.s)
+			if (ev.ctrlKey && ev.keyCode === Enums.Key.s && (
+				// additional check if messaeg is opened in the separated layout mode
+				this.isSeparatedLayoutMode() !== Enums.LayoutMode.Separated ||
+				!!MailView.isOpenedSeparatedMessage()
+			))
 			{
 				ev.preventDefault();
 				this.saveNote();
@@ -154,15 +174,18 @@ CMessagePaneView.prototype.onBind = function ($MailViewDom)
 	}
 };
 
-CMessagePaneView.prototype.onRoute = function (aParams, oParams)
+CMessagePaneView.prototype.onRoute = function (aParams)
 {
-	var oIdentifiers = MailCache.getMessageActualIdentifiers(MailCache.currentAccountId(), oParams.Folder, oParams.Uid);
-
+	const oParams = LinksUtils.parseMailbox(aParams);
+	const oIdentifiers = MailCache.getMessageActualIdentifiers(MailCache.currentAccountId(), oParams?.Folder, oParams?.Uid);
 	MailCache.setCurrentMessage(oIdentifiers.iAccountId, oIdentifiers.sFolder, oIdentifiers.sUid);
-	if (oParams.Custom === 'create-note')
+
+	
+	if (oParams?.Custom === 'create-note')
 	{
 		this.messageText('');
 		this.createMode(true);
+		MailView.isOpenedSeparatedMessage(true);
 	}
 	else
 	{
@@ -270,5 +293,9 @@ CMessagePaneView.prototype.cancel = function ()
 	this.sMessageText = this.messageText();
 	ModulesManager.run('MailWebclient', 'setCustomRouting', ['Notes', 1, '', '', '', '']);
 };
+
+CMessagePaneView.prototype.executeBack = function () {
+	ModulesManager.run('MailWebclient', 'setCustomRouting', ['Notes', 1, '', '', '', '']);
+}
 
 module.exports = CMessagePaneView;

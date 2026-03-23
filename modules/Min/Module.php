@@ -82,6 +82,15 @@ class Module extends \Aurora\System\Module\AbstractModule
         }
     }
 
+    /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
+     * Generates hash identifier by data array.
+     *
+     * @param array $aData
+     * @return string
+     */
     public static function generateHashId($aData)
     {
         return \md5(\implode('|', $aData));
@@ -89,6 +98,9 @@ class Module extends \Aurora\System\Module\AbstractModule
 
     /***** public functions might be called with web API *****/
     /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
      * Crates min hash.
      *
      * @param string $HashId Hash identifier.
@@ -105,6 +117,9 @@ class Module extends \Aurora\System\Module\AbstractModule
     }
 
     /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
      * Returns parameters object by min hash.
      *
      * @param string $sHash Min hash.
@@ -118,6 +133,9 @@ class Module extends \Aurora\System\Module\AbstractModule
     }
 
     /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
      * Returns parameters object by min hash identifier.
      *
      * @param string $Id
@@ -131,19 +149,9 @@ class Module extends \Aurora\System\Module\AbstractModule
     }
 
     /**
-     * @deprecated since version 9.7.3
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
      *
-     * @param int $UserId
-     * @return array|bool
-     */
-    public function GetMinListByUserId($UserId)
-    {
-        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
-
-        return $this->oManager->getMinListByUserId($UserId);
-    }
-
-    /**
      * Updates min hash by min hash identifier.
      *
      * @param string $Id Hash identifier.
@@ -159,6 +167,9 @@ class Module extends \Aurora\System\Module\AbstractModule
     }
 
     /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
      * Updates min hash by min hash.
      *
      * @param string $Hash Min hash.
@@ -174,6 +185,9 @@ class Module extends \Aurora\System\Module\AbstractModule
     }
 
     /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
      * Deletes min hash by min hash identifier.
      *
      * @param string $Id
@@ -186,6 +200,15 @@ class Module extends \Aurora\System\Module\AbstractModule
         return $this->oManager->deleteMinByID($Id);
     }
 
+    /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
+     * Deletes min hash by min hash.
+     *
+     * @param string $Hash
+     * @return boolean
+     */
     public function DeleteMinByHash($Hash)
     {
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
@@ -193,6 +216,15 @@ class Module extends \Aurora\System\Module\AbstractModule
         return $this->oManager->deleteMinByHash($Hash);
     }
 
+    /**
+     * !Not public
+     * This method is restricted to be called by web API (see denyMethodsCallByWebApi method).
+     *
+     * Deletes expired min hashes.
+     *
+     * @param int $Time Expire time.
+     * @return void
+     */
     public function DeleteExpiredHashes($Time)
     {
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);

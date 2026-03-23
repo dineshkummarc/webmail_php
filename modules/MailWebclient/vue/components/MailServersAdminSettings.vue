@@ -242,12 +242,10 @@
                           :disable="!setExternalAccessServers"/>
               </div>
             </div>
-            <div class="row">
-              <div class="col-2 q-my-sm" v-t="'MAILWEBCLIENT.LABEL_SMTP_SERVER'"
-                   :class="setExternalAccessServers ? '' : 'disabled'"></div>
+            <div class="row q-mb-sm">
+              <div class="col-2 q-my-sm" :class="setExternalAccessServers ? '' : 'disabled'" v-t="'MAILWEBCLIENT.LABEL_SMTP_SERVER'"></div>
               <div class="col-3">
-                <q-input outlined dense bg-color="white" v-model="externalAccessSmtpServer"
-                         :disable="!setExternalAccessServers"></q-input>
+                <q-input outlined dense bg-color="white" v-model="externalAccessSmtpServer" :disable="!setExternalAccessServers"></q-input>
               </div>
               <div class="col-1 q-my-sm text-right q-pr-md" v-t="'MAILWEBCLIENT.LABEL_PORT'"
                    :class="setExternalAccessServers ? '' : 'disabled'"></div>
@@ -264,6 +262,12 @@
               <div class="col-1 q-my-sm q-pl-md">
                 <q-checkbox outlined dense v-model="externalAccessSmtpUseSsl" label="SSL"
                          :disable="!setExternalAccessServers"/>
+              </div>
+            </div>
+            <div class="row" v-if="smtpAuthentication === smtpAuthTypeEnum.UseSpecifiedCredentials">
+              <div class="col-2"></div>
+              <div class="col-8">
+                <q-item-label caption v-t="$t('MAILWEBCLIENT.LABEL_ALTERNATIVE_SMTP_DISCLAIMER')" />
               </div>
             </div>
           </q-card-section>

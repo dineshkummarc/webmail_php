@@ -42,12 +42,20 @@ function CMailView()
 
 	this.folderList = MailCache.folderList;
 	this.domFoldersMoveTo = ko.observable(null);
+	this.isOpenedSeparatedMessage = ko.observable(null);
 
 	this.openMessageInNewWindowBound = _.bind(this.openMessageInNewWindow, this);
+	this.openMessage = _.bind(function(oMessage) {
+		if (Settings.layoutMode() === Enums.LayoutMode.Separated) {
+			this.isOpenedSeparatedMessage(true)
+		} else {
+			this.openMessageInNewWindowBound(oMessage)
+		}
+	}, this);
 
 	this.oFolderList = new CFolderListView();
 	this.isUnifiedFolderCurrent = MailCache.oUnifiedInbox.selected;
-	this.oBaseMessageList = new CMessageListView(this.openMessageInNewWindowBound);
+	this.oBaseMessageList = new CMessageListView(this.openMessage);
 	this.messageList = ko.observable(this.oBaseMessageList);
 	this.isSearchMultiFolders = ko.computed(function () {
 		return this.messageList().searchFoldersMode() === Enums.SearchFoldersMode.Sub || this.messageList().searchFoldersMode() === Enums.SearchFoldersMode.All;
@@ -160,11 +168,32 @@ function CMailView()
 	this.isTrashFolder = ko.computed(function () {
 		return MailCache.getCurrentFolderType() === Enums.FolderTypes.Trash;
 	}, this);
+	
+	this.layoutNameByOrientation = ko.observable('%ModuleName%_MailVerticalLayoutView');
 
-	if (Settings.HorizontalLayout)
-	{
-		$('html').addClass('layout-horiz-split');
-	}
+	Settings.layoutMode.subscribe(function (layoutMode) {
+		var $html = $('html');
+		if ($html.length > 0) {
+			$html.removeClass('layout-vertical layout-horizontal layout-separated');
+			
+			switch (layoutMode) {
+				case Enums.LayoutMode.Vertical:
+					$html.addClass('layout-vertical');
+					this.layoutNameByOrientation('%ModuleName%_MailVerticalLayoutView');
+					break;
+				case Enums.LayoutMode.Horizontal:
+					$html.addClass('layout-horizontal');
+					this.layoutNameByOrientation('%ModuleName%_MailHorizontalLayoutView');
+					break;
+				case Enums.LayoutMode.Separated:
+					$html.addClass('layout-separated');
+					this.layoutNameByOrientation('%ModuleName%_MailSeparatedLayoutView');
+					break;
+			}
+		}
+	}, this);
+	
+	Settings.layoutMode.valueHasMutated();
 
 	App.subscribeEvent('CoreWebclient::GetDebugInfo', _.bind(function (oParams) {
 		oParams.Info.push('checkMailStarted: ' + MailCache.checkMailStarted() + ', messagesLoading: ' + MailCache.messagesLoading());
@@ -175,7 +204,7 @@ function CMailView()
 
 _.extendOwn(CMailView.prototype, CAbstractScreenView.prototype);
 
-CMailView.prototype.ViewTemplate = Settings.HorizontalLayout ? '%ModuleName%_MailHorizontalLayoutView' : '%ModuleName%_MailView';
+CMailView.prototype.ViewTemplate = '%ModuleName%_MailView';
 CMailView.prototype.ViewConstructorName = 'CMailView';
 
 /**
@@ -206,7 +235,6 @@ CMailView.prototype.setCustomPreviewPane = function (sModuleName, oPreviewPane)
 		{
 			this.messagePane().onHide();
 		}
-
 		oPreviewPane.__customModuleName = sModuleName;
 		this.messagePane(oPreviewPane);
 
@@ -379,6 +407,8 @@ CMailView.prototype.resizeDblClick = function (oData, oEvent)
  */
 CMailView.prototype.onRoute = function (aParams)
 {
+	this.isOpenedSeparatedMessage(false);
+	
 	if (!AccountList.hasAccount())
 	{
 		Routing.replaceHash(['settings', 'mail-accounts', 'account', 'create']);
@@ -388,15 +418,25 @@ CMailView.prototype.onRoute = function (aParams)
 	var oParams = LinksUtils.parseMailbox(aParams);
 
 	AccountList.changeCurrentAccountByHash(oParams.AccountHash);
-
+	
 	if (_.isFunction(this.oFolderList.onRoute)) {
 		this.oFolderList.onRoute(aParams);
 	}
 	this.messageList().onRoute(aParams);
-	if (_.isFunction(this.messagePane().onRoute))
-	{
-		this.messagePane().onRoute(aParams, oParams);
+	
+	if (_.isFunction(this.messagePane().onRoute)) {
+		this.messagePane().onRoute(aParams);
 	}
+
+	// we can't define if message is should be opened in the separated layout mode in onRoute method
+	// because this makes message opening on click, instead of double click
+	// if (Settings.layoutMode() === Enums.LayoutMode.Separated) {
+	// 	if (oParams.Uid || oParams.Custom !== '') {
+	// 		this.isOpenedSeparatedMessage(true);
+	// 	} else {
+	// 		this.isOpenedSeparatedMessage(false);
+	// 	}
+	// }
 
 	if (oParams.MailtoCompose)
 	{
@@ -418,6 +458,8 @@ CMailView.prototype.onRoute = function (aParams)
 
 CMailView.prototype.onShow = function ()
 {
+	this.isOpenedSeparatedMessage(false);
+	
 	if (_.isFunction(this.oFolderList.onShow)) {
 		this.oFolderList.onShow();
 	}

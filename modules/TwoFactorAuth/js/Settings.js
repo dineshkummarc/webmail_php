@@ -17,6 +17,8 @@ module.exports = {
 	HashModuleName: 'two-factor-auth',
 	AuthenticatorAppEnabled: false,
 	ShowRecommendationToConfigure: true,
+	MandatoryToConfigure: false,
+	UserActivityTimeout: 30,
 	AllowBackupCodes: false,
 	BackupCodesCount: false,
 	AllowSecurityKeys: false,
@@ -38,6 +40,8 @@ module.exports = {
 		if (!_.isEmpty(oAppDataSection))
 		{
 			this.ShowRecommendationToConfigure = Types.pBool(oAppDataSection.ShowRecommendationToConfigure, this.ShowRecommendationToConfigure);
+			this.MandatoryToConfigure = Types.pBool(oAppDataSection.MandatoryToConfigure, this.MandatoryToConfigure);
+			this.UserActivityTimeout = Types.pInt(oAppDataSection.UserActivityTimeoutSeconds, this.UserActivityTimeout);
 			this.AllowBackupCodes = Types.pBool(oAppDataSection.AllowBackupCodes, this.AllowBackupCodes);
 			this.BackupCodesCount = Types.pInt(oAppDataSection.BackupCodesCount, this.BackupCodesCount);
 			this.AllowSecurityKeys = Types.pBool(oAppDataSection.AllowSecurityKeys, this.AllowSecurityKeys);

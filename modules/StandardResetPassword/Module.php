@@ -713,6 +713,20 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
                 if ($mResult) {
                     $oMin->DeleteMinByHash($Hash);
                     Api::UserSession()->DeleteAllAccountSessions($oAccount);
+
+                    // removing AuthToken cookie for web client
+                    $sXClientHeader = $this->oHttp->GetHeader('X-Client');
+
+                    // Set cookie in browser only
+                    if (strtolower($sXClientHeader) === 'webclient') {
+                        $authUserId = \Aurora\System\Api::getAuthenticatedUserId();
+                        if ($authUserId === $oAccount->IdUser) {
+                            // we need to remove auth token cookie, because it is no longer valid
+                            // user will be logged out and should login with new password
+
+                            Api::unsetAuthTokenCookie();
+                        }
+                    }
                 }
             } else {
                 throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::InvalidInputParameter);

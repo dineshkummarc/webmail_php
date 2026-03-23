@@ -80,6 +80,7 @@ function CMessagePaneView() {
     return App.isNewTab() && Types.isNonEmptyString(this.nextMessageUid())
   }, this)
 
+  this.isEnableBack = this.isCurrentMessage
   this.isEnableDelete = this.isCurrentMessage
   this.isEnableReply = this.isCurrentMessageLoaded
   this.isEnableReplyAll = this.isCurrentMessageLoaded
@@ -91,6 +92,7 @@ function CMessagePaneView() {
   }
 
   this.deleteCommand = Utils.createCommand(this, this.executeDeleteMessage, this.isEnableDelete)
+  this.backCommand = Utils.createCommand(this, this.executeBack, this.isEnableBack)
   this.prevMessageCommand = Utils.createCommand(this, this.executePrevMessage, this.isEnablePrevMessage)
   this.nextMessageCommand = Utils.createCommand(this, this.executeNextMessage, this.isEnableNextMessage)
   this.replyCommand = Utils.createCommand(this, this.executeReply, this.isEnableReply)
@@ -369,14 +371,21 @@ function CMessagePaneView() {
   this.domMessageForPrint = ko.observable(null)
 
   // to have time to take action "Open full reply form" before the animation starts
-  this.replyTextFocusThrottled = ko.observable(false).extend({ throttle: 50 })
+  this.replyTextFocusDelayed = ko.observable(false)
 
-  this.replyTextFocus.subscribe(function () {
-    this.replyTextFocusThrottled(this.replyTextFocus())
+  this.replyTextFocus.subscribe(function (v) {
+    if (v) {
+      this.replyTextFocusDelayed(true)
+    } else {
+      // setting focuse false with delay to have time to take action "Open full reply form" before the animation starts
+      setTimeout(_.bind(function () {
+        this.replyTextFocusDelayed(this.replyTextFocus())
+      }, this), 300)
+    }
   }, this)
 
   this.isQuickReplyActive = ko.computed(function () {
-    return this.replyText().length > 0 || this.replyTextFocusThrottled()
+    return this.replyText().length > 0 || this.replyTextFocusDelayed()
   }, this)
 
   //*** Quick Reply Part
@@ -390,6 +399,9 @@ function CMessagePaneView() {
   }
 
   this.sDefaultFontName = Settings.DefaultFontName
+
+  this.Settings = Settings
+  this.Enums = Enums
 
   Pulse.registerDayOfMonthFunction(_.bind(this.updateMomentDate, this))
 
@@ -826,6 +838,12 @@ CMessagePaneView.prototype.executeForwardAsAttachment = function () {
   if (this.currentMessage()) {
     ComposeUtils.composeMessageWithEml(this.currentMessage())
   }
+}
+
+CMessagePaneView.prototype.executeBack = function () {
+  if (this.currentMessage() && window.location.hash) {
+		Routing.setHash(window.location.hash.substring(1).split('/').filter(item => !/^msg/.test(item)));
+	}
 }
 
 CMessagePaneView.prototype.changeAddMenuVisibility = function () {

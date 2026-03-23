@@ -86,7 +86,7 @@ export default {
   },
 
   beforeRouteLeave(to, from, next) {
-    this.$root.doBeforeRouteLeave(to, from, next)
+    this.doBeforeRouteLeave(to, from, next)
   },
 
   methods: {
@@ -135,7 +135,7 @@ export default {
       if ((this.appId && this.apiKey && this.appSecret) || !this.enableGoogle) {
         this.save()
       } else {
-        notification.showError(this.$t('COREWEBCLIENT.ERROR_REQUIRED_FIELDS_EMPTY'))
+        notification.showError(this.$t('MAILWEBCLIENT.ERROR_REQUIRED_FIELDS_EMPTY'))
       }
     },
 

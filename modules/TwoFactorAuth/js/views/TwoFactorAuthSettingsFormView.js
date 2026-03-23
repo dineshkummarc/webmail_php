@@ -1,7 +1,8 @@
 'use strict'
 
 const _ = require('underscore'),
-  ko = require('knockout')
+  ko = require('knockout'),
+  $ = require('jquery')
 
 const TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
   Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
@@ -9,11 +10,13 @@ const TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
   Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
   Api = require('%PathToCoreWebclientModule%/js/Api.js'),
   ConfirmPopup = require('%PathToCoreWebclientModule%/js/popups/ConfirmPopup.js'),
-  ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
+  // ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
   Popups = require('%PathToCoreWebclientModule%/js/Popups.js'),
-  Screens = require('%PathToCoreWebclientModule%/js/Screens.js')
+  Screens = require('%PathToCoreWebclientModule%/js/Screens.js'),
+  CAbstractSettingsFormView = require('modules/SettingsWebclient/js/views/CAbstractSettingsFormView.js')
 
-const CAbstractSettingsFormView = ModulesManager.run('SettingsWebclient', 'getAbstractSettingsFormViewClass')
+
+// const CAbstractSettingsFormView = ModulesManager.run('SettingsWebclient', 'getAbstractSettingsFormViewClass')
 
 const CDeviceModel = require('modules/%ModuleName%/js/models/CDeviceModel.js'),
   ConfigureAuthenticatorAppPopup = require('modules/%ModuleName%/js/popups/ConfigureAuthenticatorAppPopup.js'),
@@ -34,7 +37,9 @@ function CTwoFactorAuthSettingsFormView() {
 
   this.visibleHeading = ko.observable(true) // Can be changed by SecuritySettingsWebclient module
 
-  this.showRecommendationToConfigure = ko.observable(Settings.ShowRecommendationToConfigure)
+  this.showRecommendationToConfigure = ko.observable(Settings.ShowRecommendationToConfigure && !Settings.MandatoryToConfigure)
+
+  this.bMandatoryToConfigure = Settings.MandatoryToConfigure
 
   this.bAllowSecurityKeys = Settings.AllowSecurityKeys
 
@@ -57,11 +62,26 @@ function CTwoFactorAuthSettingsFormView() {
     }
   }, this)
 
+  this.userActivityTimer = null
+  this.bWatchUserActivity = true
+  this.userToken = ko.observable('')
+  this.bNeedReloginAfterSetup = false
   this.sEditVerificator = ''
   this.passwordVerified = ko.observable(false)
 
   this.passwordVerified.subscribe(function (v) {
     this.subPage(!!v)
+
+    if (v) {
+      $('body').on('click keyup', this.updateActivityTimerBind)
+    } else {
+      CreateSecurityKeyPopup.closePopup()
+      EditSecurityKeyPopup.closePopup()
+      ConfigureAuthenticatorAppPopup.closePopup()
+      ShowBackupCodesPopup.closePopup()
+
+      $('body').off('click keyup', this.updateActivityTimerBind)
+    }
   }, this)
 
   this.allowBackupCodes = ko.computed(function () {
@@ -88,11 +108,25 @@ function CTwoFactorAuthSettingsFormView() {
   this.revokeAllCommand = Utils.createCommand(this, this.askRevokeTrustFromAllDevices, function () {
     return this.allowRevokeAll()
   })
+
+  this.updateActivityTimerBind = this.updateActivityTimer.bind(this)
 }
 
 _.extendOwn(CTwoFactorAuthSettingsFormView.prototype, CAbstractSettingsFormView.prototype)
 
 CTwoFactorAuthSettingsFormView.prototype.ViewTemplate = '%ModuleName%_TwoFactorAuthSettingsFormView'
+
+CTwoFactorAuthSettingsFormView.prototype.updateActivityTimer = function () {
+  if (this.bWatchUserActivity) {
+    if (this.userActivityTimer) {
+      clearTimeout(this.userActivityTimer)
+    }
+    
+    this.userActivityTimer = setTimeout(_.bind(function () {
+      this.clearAll()
+    }, this), Settings.UserActivityTimeout * 1000)
+  }
+}
 
 CTwoFactorAuthSettingsFormView.prototype.onShow = function () {
   this.clearAll()
@@ -101,6 +135,7 @@ CTwoFactorAuthSettingsFormView.prototype.onShow = function () {
 CTwoFactorAuthSettingsFormView.prototype.clearAll = function () {
   this.sEditVerificator = ''
   this.passwordVerified(false)
+  this.userToken('')
   this.populateSettings()
   if (Settings.AllowUsedDevices) {
     this.getUsedDevices()
@@ -108,7 +143,7 @@ CTwoFactorAuthSettingsFormView.prototype.clearAll = function () {
 }
 
 CTwoFactorAuthSettingsFormView.prototype.populateSettings = function () {
-  this.showRecommendationToConfigure(Settings.ShowRecommendationToConfigure)
+  this.showRecommendationToConfigure(Settings.ShowRecommendationToConfigure && !Settings.MandatoryToConfigure)
 
   this.hasAuthenticatorApp(Settings.AuthenticatorAppEnabled)
 
@@ -121,17 +156,27 @@ CTwoFactorAuthSettingsFormView.prototype.populateSettings = function () {
 }
 
 CTwoFactorAuthSettingsFormView.prototype.confirmPassword = function () {
-  Popups.showPopup(ConfirmPasswordPopup, [
-    function (sEditVerificator) {
-      this.sEditVerificator = sEditVerificator
-      this.passwordVerified(true)
-    }.bind(this),
-  ])
+  if (this.userToken()) {
+    // this.sEditVerificator = sEditVerificator
+    this.passwordVerified(true)
+
+  } else {
+    Popups.showPopup(ConfirmPasswordPopup, [
+      function (sEditVerificator, sUserToken) {
+        this.sEditVerificator = sEditVerificator
+        this.passwordVerified(true)
+        this.userToken(sUserToken)
+        this.updateActivityTimer()
+      }.bind(this),
+    ])
+  }
 }
 
 CTwoFactorAuthSettingsFormView.prototype.setupAuthenticatorApp = function () {
   Popups.showPopup(ConfigureAuthenticatorAppPopup, [
     this.sEditVerificator,
+    this.userToken(),
+    this.bNeedReloginAfterSetup,  
     function () {
       Settings.updateAuthenticatorApp(true)
       this.populateSettings()

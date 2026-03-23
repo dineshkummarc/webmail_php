@@ -79,8 +79,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             'AllowShowMessagesCountInFolderList' => $this->oModuleSettings->AllowShowMessagesCountInFolderList,
             'AllowSearchMessagesBySubject' => $this->oModuleSettings->AllowSearchMessagesBySubject,
             'PrefixesToRemoveBeforeSearchMessagesBySubject' => $this->oModuleSettings->PrefixesToRemoveBeforeSearchMessagesBySubject,
-            'AllowHorizontalLayout' => $this->oModuleSettings->AllowHorizontalLayout,
-            'HorizontalLayoutByDefault' => $this->oModuleSettings->HorizontalLayoutByDefault,
+            'AllowChangeLayout' => $this->oModuleSettings->AllowChangeLayout,
+            'LayoutByDefault' => $this->oModuleSettings->LayoutByDefault,
+            'LayoutMode' => $this->oModuleSettings->LayoutByDefault,
             'DisableRtlRendering' => $this->oModuleSettings->DisableRtlRendering,
             'AllowQuickReply' => $this->oModuleSettings->AllowQuickReply,
             'AllowQuickSendOnCompose' => $this->oModuleSettings->AllowQuickSendOnCompose,
@@ -89,7 +90,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             'MarkMessageSeenWhenAnswerForward' => $this->oModuleSettings->MarkMessageSeenWhenAnswerForward,
             'UserLoginPartInAccountDropdown' => $this->oModuleSettings->UserLoginPartInAccountDropdown,
             'UseMeRecipientForMessages' => $this->oModuleSettings->UseMeRecipientForMessages,
-            'HorizontalLayout' => $this->oModuleSettings->HorizontalLayoutByDefault,
             'ShowMessagesCountInFolderList' => $this->oModuleSettings->AllowShowMessagesCountInFolderList,
             'TextEditorImageResizerOptions' => $this->oModuleSettings->TextEditorImageResizerOptions,
         );
@@ -108,8 +108,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             if (null !== $oUser->getExtendedProp(self::GetName() . '::ShowMessagesCountInFolderList')) {
                 $aSettings['ShowMessagesCountInFolderList'] = $oUser->getExtendedProp(self::GetName() . '::ShowMessagesCountInFolderList');
             }
-            if ($this->oModuleSettings->AllowHorizontalLayout && null !== $oUser->getExtendedProp(self::GetName() . '::HorizontalLayout')) {
-                $aSettings['HorizontalLayout'] = $oUser->getExtendedProp(self::GetName() . '::HorizontalLayout');
+            if ($this->oModuleSettings->AllowChangeLayout && null !== $oUser->getExtendedProp(self::GetName() . '::LayoutMode')) {
+                $aSettings['LayoutMode'] = $oUser->getExtendedProp(self::GetName() . '::LayoutMode');
             }
         }
 
@@ -136,8 +136,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
                 if (isset($Args['ShowMessagesCountInFolderList'])) {
                     $oUser->setExtendedProp(self::GetName() . '::ShowMessagesCountInFolderList', $Args['ShowMessagesCountInFolderList']);
                 }
-                if ($this->oModuleSettings->AllowHorizontalLayout && isset($Args['HorizontalLayout'])) {
-                    $oUser->setExtendedProp(self::GetName() . '::HorizontalLayout', $Args['HorizontalLayout']);
+                if ($this->oModuleSettings->AllowChangeLayout && isset($Args['LayoutMode'])) {
+                    $oUser->setExtendedProp(self::GetName() . '::LayoutMode', $Args['LayoutMode']);
                 }
                 return $oCoreDecorator->UpdateUserObject($oUser);
             }
@@ -148,8 +148,11 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
                 if (isset($Args['AllowChangeInputDirection'])) {
                     $this->setConfig('AllowChangeInputDirection', $Args['AllowChangeInputDirection']);
                 }
-                if ($this->oModuleSettings->AllowHorizontalLayout && isset($Args['HorizontalLayoutByDefault'])) {
-                    $this->setConfig('HorizontalLayoutByDefault', $Args['HorizontalLayoutByDefault']);
+                if (isset($Args['AllowChangeLayout'])) {
+                    $this->setConfig('AllowChangeLayout', $Args['AllowChangeLayout']);
+                }
+                if (isset($Args['LayoutByDefault'])) {
+                    $this->setConfig('LayoutByDefault', $Args['LayoutByDefault']);
                 }
                 return $this->saveModuleConfig();
             }

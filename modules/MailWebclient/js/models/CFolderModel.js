@@ -1598,4 +1598,12 @@ CFolderModel.prototype.onSetAlwaysRefreshFolder = function (oResponse)
 	}
 };
 
+CFolderModel.prototype.onFolderClick = function (data, event)
+{
+	// Navigate to folder
+	if (this.routingHash()) {
+		window.location.hash = this.routingHash();
+	}
+};
+
 module.exports = CFolderModel;

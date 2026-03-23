@@ -295,7 +295,7 @@ module.exports = {
 	startListening: _.bind(Routing.startListening, Routing),
 	goDirectly: _.bind(Routing.goDirectly, Routing),
 	getCurrentHashArray: function () {
-		return Routing.currentHash().split('/');
+		return decodeURIComponent(Routing.currentHash()).split('/');
 	},
 	getAppUrlWithHash: function (aRoutingParts) {
 		return UrlUtils.getAppPath() + Routing.buildHashFromArray(aRoutingParts);

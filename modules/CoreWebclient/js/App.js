@@ -141,6 +141,7 @@ CApp.prototype.getUserId = function () {
 
 CApp.prototype.setPublic = function () {
   this.bPublic = true
+  $('html').addClass('app-public')
 }
 
 CApp.prototype.isPublic = function () {

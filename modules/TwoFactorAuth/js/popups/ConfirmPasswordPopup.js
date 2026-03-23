@@ -47,11 +47,11 @@ CConfirmPasswordPopup.prototype.verifyPassword = function ()
 CConfirmPasswordPopup.prototype.onVerifyPasswordResponse = function (oResponse)
 {
 	this.inProgress(false);
-	if (oResponse && oResponse.Result)
+	if (oResponse && oResponse.Result && oResponse.Result.UserToken)
 	{
 		if (_.isFunction(this.fSuccessCallback))
 		{
-			this.fSuccessCallback(this.password());
+			this.fSuccessCallback(this.password(), oResponse.Result.UserToken);
 		}
 		this.closePopup();
 	}

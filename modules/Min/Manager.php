@@ -112,17 +112,6 @@ class Manager extends \Aurora\System\Managers\AbstractManager
     }
 
     /**
-     * @deprecated since version 9.7.3
-     * @param int $iUserId
-     *
-     * @return array|bool
-     */
-    public function getMinListByUserId($iUserId)
-    {
-        return MinHash::where('UserId', $iUserId)->get();
-    }
-
-    /**
      * @param string $sHashID
      *
      * @return bool

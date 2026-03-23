@@ -24,6 +24,8 @@ function CConfigureAuthenticatorAppPopup()
 	CAbstractPopup.call(this);
 	
 	this.sEditVerificator = null;
+	this.sUserToken = null;
+	this.bNeedReloginAfterSetup = false;
 	this.fSuccessCallback = null;
 
 	this.authenticatorQRCodeUrl = ko.observable('');
@@ -44,9 +46,11 @@ _.extendOwn(CConfigureAuthenticatorAppPopup.prototype, CAbstractPopup.prototype)
 
 CConfigureAuthenticatorAppPopup.prototype.PopupTemplate = '%ModuleName%_ConfigureAuthenticatorAppPopup';
 
-CConfigureAuthenticatorAppPopup.prototype.onOpen = function (sEditVerificator, fSuccessCallback)
+CConfigureAuthenticatorAppPopup.prototype.onOpen = function (sEditVerificator, sUserToken, bNeedReloginAfterSetup, fSuccessCallback)
 {
 	this.sEditVerificator = sEditVerificator;
+	this.sUserToken = sUserToken;
+	this.bNeedReloginAfterSetup = bNeedReloginAfterSetup;
 	this.fSuccessCallback = fSuccessCallback;
 	this.authenticatorQRCodeUrl('');
 	this.authenticatorSecret('');
@@ -60,7 +64,8 @@ CConfigureAuthenticatorAppPopup.prototype.onOpen = function (sEditVerificator, f
 CConfigureAuthenticatorAppPopup.prototype.getAuthenticatorAppData = function ()
 {
 	var oParameters = {
-		'Password': this.sEditVerificator
+		// 'Password': this.sEditVerificator,
+		'UserToken': this.sUserToken
 	};
 	Ajax.send('%ModuleName%', 'RegisterAuthenticatorAppBegin', oParameters, this.onRegisterAuthenticatorAppBeginResponse, this);
 };
@@ -92,9 +97,11 @@ CConfigureAuthenticatorAppPopup.prototype.save = function ()
 	if (Types.isNonEmptyString(this.authenticatorCode()))
 	{
 		var oParameters = {
-			'Password': this.sEditVerificator,
+			// 'Password': this.sEditVerificator,
+			'UserToken': this.sUserToken,
 			'Code': this.authenticatorCode(),
-			'Secret': this.authenticatorSecret()
+			'Secret': this.authenticatorSecret(),
+			'NeedReloginAfterSetup': this.bNeedReloginAfterSetup,
 		};
 		this.saveInProgress(true);
 		Ajax.send('%ModuleName%', 'RegisterAuthenticatorAppFinish', oParameters, this.onRegisterAuthenticatorAppFinishResponse, this);
@@ -111,6 +118,10 @@ CConfigureAuthenticatorAppPopup.prototype.onRegisterAuthenticatorAppFinishRespon
 			this.fSuccessCallback();
 		}
 		this.closePopup();
+
+		if (this.bNeedReloginAfterSetup) {
+			window.location.reload()
+		}
 	}
 	else
 	{

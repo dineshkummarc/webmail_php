@@ -8,6 +8,8 @@ module.exports = function (oAppData) {
 		TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
 		App = require('%PathToCoreWebclientModule%/js/App.js'),
 		ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
+		Screens = require('%PathToCoreWebclientModule%/js/Screens.js'),
+		Routing = require('%PathToCoreWebclientModule%/js/Routing.js'),
 
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 
@@ -31,7 +33,8 @@ module.exports = function (oAppData) {
 	function getHeaderItemHashes() {
 		try {
 			const { HashModuleName } = ModulesManager.run('MailWebclient', 'getSettings')
-			const accountHash = ModulesManager.run('MailWebclient', 'getAccountList').getCurrent().hash()
+			const accountList = ModulesManager.run('MailWebclient', 'getAccountList')
+			const accountHash = accountList.getDefault().email() ? accountList.getDefault().hash() : accountList.collection()[0]?.hash()
 			return {
 				'mail': `#${HashModuleName || 'mail'}/${accountHash}/INBOX`,
 				'notes': `#${HashModuleName || 'mail'}/${accountHash}/${sNotesFullName}`
@@ -104,24 +107,46 @@ module.exports = function (oAppData) {
 						const
 							koFolderList = oParams.MailCache.folderList,
 							koCurrentFolder = ko.computed(function () {
-								return oParams.MailCache.folderList().currentFolder()
+								return koFolderList().currentFolder()
 							}),
 							CMessagePaneView = require('modules/%ModuleName%/js/views/CMessagePaneView.js'),
-							oMessagePane = new CMessagePaneView(oParams.MailCache, _.bind(oParams.View.routeMessageView, oParams.View))
+							oMessagePane = new CMessagePaneView(oParams.MailCache, _.bind(oParams.View.routeMessageView, oParams.View), oParams.View)
 						;
 						setNotesFolder(koFolderList)
+						
+
+						Screens.screens.subscribe(function (oScreens) {
+							_.each(oScreens, function (oScreen) {
+								if (oScreen.sModuleName === 'MailWebclient' && 
+									oScreen.ViewConstructorName === 'CMailView' && 
+									oScreen.$viewDom && 
+									Settings.DisplayNotesButton) {
+									oScreen.$viewDom.addClass('NotesLayoutSeparated')
+								}
+							})
+						})
+						
 						koFolderList.subscribe(function () {
 							setNotesFolder(koFolderList)
 						});
 						koCurrentFolder.subscribe(function () {
 							const sFullName = koCurrentFolder() ? koCurrentFolder().fullName() : ''
+							const screen = oParams.View.$viewDom
 							if (sFullName === sNotesFullName) {
+								screen.addClass('NotesLayout')
+								
 								oParams.View.setCustomPreviewPane('%ModuleName%', oMessagePane)
 								oParams.View.setCustomBigButton('%ModuleName%', function () {
 									oModulesManager.run('MailWebclient', 'setCustomRouting', [sFullName, 1, '', '', '', 'create-note'])
 								}, TextUtils.i18n('%MODULENAME%/ACTION_NEW_NOTE'))
 								oParams.View.resetDisabledTools('%ModuleName%', ['spam', 'move', 'mark'])
+								
+								var aParams = Routing.getCurrentHashArray();
+								aParams.shift(); // remove 'mail' part
+								oMessagePane.onRoute(aParams);
 							} else {
+								screen.removeClass('NotesLayout')
+								
 								oParams.View.removeCustomPreviewPane('%ModuleName%')
 								oParams.View.removeCustomBigButton('%ModuleName%')
 								oParams.View.resetDisabledTools('%ModuleName%', [])
@@ -148,7 +173,9 @@ module.exports = function (oAppData) {
 				})
 
 				App.subscribeEvent('MailWebclient::MessageDblClick::before', _.bind(function (oParams) {
-					if (oParams.Message && oParams.Message.folder() === sNotesFullName) {
+					const MailSettings = ModulesManager.run('MailWebclient', 'getSettings');
+					const separatedMailMode = !!(MailSettings && MailSettings.layoutMode && MailSettings.layoutMode() === window.Enums.LayoutMode.Separated);
+					if (oParams.Message && oParams.Message.folder() === sNotesFullName && !separatedMailMode) {
 						oParams.Cancel = true
 					}
 				}, this))

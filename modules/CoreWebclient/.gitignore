@@ -1,0 +1,7 @@
+.DS_Store
+/styles/themes/**/
+!/styles/themes/Default/
+!/styles/themes/DefaultDark/
+!/styles/themes/DeepForest/
+!/styles/themes/Funny/
+!/styles/themes/Sand/

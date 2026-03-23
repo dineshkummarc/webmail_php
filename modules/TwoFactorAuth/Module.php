@@ -121,6 +121,8 @@ class Module extends \Aurora\System\Module\AbstractModule
             'AllowAuthenticatorApp' => $this->oModuleSettings->AllowAuthenticatorApp,
             'AllowUsedDevices' => $bAllowUsedDevices,
             'TrustDevicesForDays' => $bAllowUsedDevices ? $this->oModuleSettings->TrustDevicesForDays : 0,
+            'MandatoryToConfigure' => $this->oModuleSettings->MandatoryToConfigure,
+            'UserActivityTimeoutSeconds' => $this->oModuleSettings->UserActivityTimeoutSeconds,
         ];
 
         $oUser = Api::getAuthenticatedUser();
@@ -243,29 +245,35 @@ class Module extends \Aurora\System\Module\AbstractModule
     /**
      * Verifies user's password and returns Secret and QR-code
      *
-     * @param string $Password
+     * @param string $UserToken
      * @return bool|array
      */
-    public function RegisterAuthenticatorAppBegin($Password)
+    public function RegisterAuthenticatorAppBegin($UserToken = null)
     {
-        Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
-
         if (!$this->oModuleSettings->AllowAuthenticatorApp) {
             throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
         }
 
-        $oUser = Api::getAuthenticatedUser();
+        if (empty($UserToken)) {
+            throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::InvalidInputParameter);
+        }
+
+        if ($UserToken) {
+            Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
+            $oUserData = json_decode(\Aurora\System\Utils::DecryptValue($UserToken));
+            $oUser = Api::getUserById($oUserData->id);
+        } else {
+            Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
+            $oUser = Api::getAuthenticatedUser();
+        }
+
         if (!($oUser instanceof User) || !$oUser->isNormalOrTenant()) {
             throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
         }
 
-        if (empty($Password)) {
-            throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::InvalidInputParameter);
-        }
-
-        if (!CoreModule::Decorator()->VerifyPassword($Password)) {
-            throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
-        }
+        // if (!CoreModule::Decorator()->VerifyPassword($Password)) {
+        //     throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
+        // }
 
         $oGoogle = new \PHPGangsta_GoogleAuthenticator();
         $sSecret = '';
@@ -293,32 +301,42 @@ class Module extends \Aurora\System\Module\AbstractModule
     /**
      * Verifies user's Code and saves Secret in case of success
      *
-     * @param string $Password
      * @param string $Code
      * @param string $Secret
+     * @param string $UserToken
+     * @param boolean $NeedReloginAfterSetup
      * @return boolean
      * @throws \Aurora\System\Exceptions\ApiException
      */
-    public function RegisterAuthenticatorAppFinish($Password, $Code, $Secret)
+    public function RegisterAuthenticatorAppFinish($Code, $Secret, $UserToken, $NeedReloginAfterSetup = false)
     {
-        Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
-
         if (!$this->oModuleSettings->AllowAuthenticatorApp) {
             throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
         }
 
-        $oUser = Api::getAuthenticatedUser();
+        $oUserData = null;
+
+        if ($UserToken) {
+            Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
+            $oUserData = json_decode(\Aurora\System\Utils::DecryptValue($UserToken));
+            $oUser = Api::getUserById($oUserData->id);
+        } else {
+            Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
+            $oUser = Api::getAuthenticatedUser();
+        }
+
         if (!($oUser instanceof User) || !$oUser->isNormalOrTenant()) {
             throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
         }
 
-        if (empty($Password) || empty($Code) || empty($Secret)) {
+        // if (empty($Password) || empty($Code) || empty($Secret)) {
+        if (empty($Code) || empty($Secret)) {
             throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::InvalidInputParameter);
         }
 
-        if (!CoreModule::Decorator()->VerifyPassword($Password)) {
-            throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
-        }
+        // if (!CoreModule::Decorator()->VerifyPassword($Password)) {
+        //     throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::AccessDenied);
+        // }
 
         $bResult = false;
         $iClockTolerance = $this->oModuleSettings->ClockTolerance;
@@ -330,6 +348,10 @@ class Module extends \Aurora\System\Module\AbstractModule
             $oUser->setExtendedProp($this->GetName() . '::IsEncryptedSecret', true);
             \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
             $bResult = true;
+        }
+
+        if ($bResult && $NeedReloginAfterSetup && $oUserData) {
+            return self::Decorator()->VerifyAuthenticatorAppCode($Code, $oUserData->login, $oUserData->password);
         }
 
         return $bResult;
@@ -565,16 +587,31 @@ class Module extends \Aurora\System\Module\AbstractModule
                     $bHasAuthenticatorApp = !!(!empty($oUser->getExtendedProp($this->GetName() . '::Secret')));
                 }
 
-                $bDeviceTrusted = ($bHasAuthenticatorApp || $bHasAuthenticatorApp) ? $this->getUsedDevicesManager()->checkDeviceAfterAuthenticate($oUser) : false;
+                $bTwoFactorAuthEnabled = $bHasSecurityKey || $bHasAuthenticatorApp;
 
-                if (($bHasSecurityKey || $bHasAuthenticatorApp) && !$bDeviceTrusted) {
-                    $mResult = [
-                        'TwoFactorAuth' => [
-                            'HasAuthenticatorApp' => $bHasAuthenticatorApp,
-                            'HasSecurityKey' => $bHasSecurityKey,
-                            'HasBackupCodes' => $this->oModuleSettings->AllowBackupCodes && !empty($oUser->getExtendedProp($this->GetName() . '::BackupCodes'))
-                        ]
-                    ];
+                $bDeviceTrusted = $bTwoFactorAuthEnabled ? $this->getUsedDevicesManager()->checkDeviceAfterAuthenticate($oUser) : false;
+
+                if (!$bDeviceTrusted) {
+                    if ($bTwoFactorAuthEnabled) {
+                        $mResult = [
+                            'TwoFactorAuth' => [
+                                'HasAuthenticatorApp' => $bHasAuthenticatorApp,
+                                'HasSecurityKey' => $bHasSecurityKey,
+                                'HasBackupCodes' => $this->oModuleSettings->AllowBackupCodes && !empty($oUser->getExtendedProp($this->GetName() . '::BackupCodes'))
+                            ]
+                        ];
+                    } elseif ($this->oModuleSettings->MandatoryToConfigure) {
+                        $mResult = [
+                            'TwoFactorAuth' => [
+                                'MandatoryToConfigure' => true,
+                                'UserToken' => \Aurora\System\Utils::EncryptValue(json_encode([
+                                    'id' => $oUser->Id,
+                                    'login' => $aArgs['Login'],
+                                    'password' => $aArgs['Password']
+                                ]))
+                            ]
+                        ];
+                    }
                 }
             }
         }
@@ -902,7 +939,30 @@ class Module extends \Aurora\System\Module\AbstractModule
             throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::InvalidInputParameter);
         }
 
-        return CoreModule::Decorator()->VerifyPassword($Password);
+        $mResult = false;
+
+        $oCoreModule = CoreModule::Decorator();
+        $oApiIntegrator = $oCoreModule->getIntegratorManager();
+        $aUserInfo = $oApiIntegrator->getAuthenticatedUserInfo(Api::getAuthToken());
+        if (isset($aUserInfo['account']) && isset($aUserInfo['accountType'])) {
+            $r = new \ReflectionClass($aUserInfo['accountType']);
+            $oQuery = $r->getMethod('query')->invoke(null);
+            $oAccount = $oQuery->find($aUserInfo['account']);
+
+            if ($oAccount) {
+                if (CoreModule::Decorator()->VerifyPassword($Password)) {
+                    $mResult = [
+                        'UserToken' => \Aurora\System\Utils::EncryptValue(json_encode([
+                            'id' => $aUserInfo['userId'],
+                            'login' => $oAccount->getLogin(),
+                            'password' => $oAccount->getPassword(),
+                        ]))
+                    ];
+                }
+            }
+        }
+
+        return $mResult;
     }
 
     public function EntryVerifySecurityKey()

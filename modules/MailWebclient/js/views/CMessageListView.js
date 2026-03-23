@@ -41,9 +41,9 @@ require("jquery-ui/ui/widgets/datepicker");
 /**
  * @constructor
  * 
- * @param {Function} fOpenMessageInNewWindowBound
+ * @param {Function} fOpenMessage
  */
-function CMessageListView(fOpenMessageInNewWindowBound)
+function CMessageListView(fOpenMessage)
 {
 	this.disableMoveMessages = ko.computed(function () {
 		var oFolder = MailCache.getCurrentFolder();
@@ -68,7 +68,7 @@ function CMessageListView(fOpenMessageInNewWindowBound)
 		return this.bDragActive();
 	}, this);
 
-	this.openMessageInNewWindowBound = fOpenMessageInNewWindowBound;
+	this.openMessage = fOpenMessage;
 	
 	this.isFocused = ko.observable(false);
 
@@ -550,7 +550,7 @@ CMessageListView.prototype.onMessageDblClick = function (oMessage)
 			}
 			else
 			{
-				this.openMessageInNewWindowBound(oMessage);
+				this.openMessage(oMessage);
 			}
 		}
 	}
@@ -907,6 +907,28 @@ CMessageListView.prototype.unbind = function ()
 /**
  * @param {Object} $viewDom
  */
+CMessageListView.prototype.initSelector = function ($viewDom)
+{
+	this.selector.initOnApplyBindings(
+		'.message_sub_list .item',
+		'.message_sub_list .item.selected',
+		'.message_sub_list .item .custom_checkbox',
+		$('.message_list', $viewDom),
+		$('.message_list_scroll.scroll-inner', $viewDom)
+	);
+}
+
+CMessageListView.prototype.initDatePickers = function ()
+{
+	_.delay(_.bind(function(){
+		this.createDatePickerObject(this.searchDateStartDom(), this.searchDateStart);
+		this.createDatePickerObject(this.searchDateEndDom(), this.searchDateEnd);
+	}, this), 1000);
+}
+
+/**
+ * @param {Object} $viewDom
+ */
 CMessageListView.prototype.onBind = function ($viewDom)
 {
 	var
@@ -937,19 +959,24 @@ CMessageListView.prototype.onBind = function ($viewDom)
 		.on('dblclick', '.message_sub_list .item .thread-pin', fStopPopagation)
 	;
 
-	this.selector.initOnApplyBindings(
-		'.message_sub_list .item',
-		'.message_sub_list .item.selected',
-		'.message_sub_list .item .custom_checkbox',
-		$('.message_list', $viewDom),
-		$('.message_list_scroll.scroll-inner', $viewDom)
-	);
+	
+	this.initSelector($viewDom);
 
-	_.delay(_.bind(function(){
-		this.createDatePickerObject(this.searchDateStartDom(), this.searchDateStart);
-		this.createDatePickerObject(this.searchDateEndDom(), this.searchDateEnd);
-	}, this), 1000);
+	const observer = new MutationObserver((mutationsList) => {
+		for (const mutation of mutationsList) {
+			const added = Array.from(mutation.addedNodes).some(
+				node => node.nodeType === 1 && node.classList.contains('panels')
+			);
+			if (added) {
+				this.initSelector($viewDom);
+				this.initDatePickers();
+			}
+		}
+	});
 
+	observer.observe($viewDom[0], { childList: true, subtree: false });
+
+	this.initDatePickers();
 	this.initUploader();
 };
 

@@ -1,3 +1,18 @@
+<div class="panel_top message_header" data-bind="visible: isSeparatedLayoutMode">
+	<div class="header_content clearfix">
+		<div class="header_row">
+			<div class="toolbar">
+				<span class="content">
+					<span class="item back" data-bind="command: backCommand, customTooltip: 'COREWEBCLIENT/ACTION_BACK'">
+						<span class="icon"></span>
+						<span class="text" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_BACK'}"></span>
+					</span>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="panel_center notes_container" data-bind="if: currentMessage() || createMode()">
 	<div class="message_body_info" data-bind="visible: isLoading, i18n: {'key': 'COREWEBCLIENT/INFO_LOADING'}"></div>
 		<textarea data-bind="value: messageText, visible: !isLoading(), hasFocus: messageText.focused, 

@@ -34,8 +34,8 @@ use Aurora\System\SettingsProperty;
  * @property bool $AllowShowMessagesCountInFolderList
  * @property bool $AllowSearchMessagesBySubject
  * @property array $PrefixesToRemoveBeforeSearchMessagesBySubject,
- * @property bool $AllowHorizontalLayout
- * @property bool $HorizontalLayoutByDefault
+ * @property bool $AllowChangeLayout
+ * @property string $LayoutByDefault
  * @property bool $DisableRtlRendering
  * @property bool $AllowQuickReply
  * @property bool $AllowQuickSendOnCompose
@@ -211,17 +211,17 @@ class Settings extends \Aurora\System\Module\Settings
                 null,
                 "",
             ),
-            "AllowHorizontalLayout" => new SettingsProperty(
+            "AllowChangeLayout" => new SettingsProperty(
                 false,
                 "bool",
                 null,
-                "If true, users are able to switch betwee vertical and horizontal layouts of mail screen",
+                "If true, users are able to change layouts of mail screen",
             ),
-            "HorizontalLayoutByDefault" => new SettingsProperty(
-                false,
-                "bool",
+            "LayoutByDefault" => new SettingsProperty(
+                "vertical",
+                "string",
                 null,
-                "If true, horizontal layout is used on mail screen by default",
+                "Default layout mode for mail screen (vertical, horizontal, separated)",
             ),
             "DisableRtlRendering" => new SettingsProperty(
                 false,
